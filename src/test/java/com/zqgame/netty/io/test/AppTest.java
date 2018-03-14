@@ -1,4 +1,4 @@
-package com.zqgame;
+package com.zqgame.netty.io.test;
 
 import org.junit.Assert;
 import org.junit.Test;
