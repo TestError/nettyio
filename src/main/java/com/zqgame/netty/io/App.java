@@ -14,7 +14,6 @@ public class App {
 
 	public static void main(String[] args) {
 
-
 		logger.debug("hello world");
 
 		logger.info("test");
