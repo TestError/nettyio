@@ -21,15 +21,9 @@ public class AppTest {
 	 */
 	@Test
 	public void testApp() {
-		System.out.println("123456");
-
-
 		logger.debug("test");
 
 		Assert.assertTrue(true);
-
-
-
 
 	}
 

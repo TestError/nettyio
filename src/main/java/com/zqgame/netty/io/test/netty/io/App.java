@@ -11,7 +11,6 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 
 /**
  * @description
@@ -24,7 +23,7 @@ public class App {
 
 	private int port;
 
-	public App(int port){
+	public App(int port) {
 		this.port = port;
 	}
 
@@ -42,7 +41,7 @@ public class App {
 						socketChannel.pipeline().addLast(new DiscardServerHandler());
 					}
 				}
-		).option(ChannelOption.SO_BACKLOG,128).childOption(ChannelOption.SO_KEEPALIVE,true);
+		).option(ChannelOption.SO_BACKLOG, 128).childOption(ChannelOption.SO_KEEPALIVE, true);
 
 		ChannelFuture f = b.bind(port).sync();
 

@@ -25,6 +25,7 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
 
 	@Override
 	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+		ctx.flush();
 		logger.debug("消息读完了");
 	}
 
@@ -51,25 +52,25 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
 
-		logger.debug("新链接活动,ip:{}",ctx.channel().remoteAddress().toString());
+		logger.debug("新链接活动,ip:{}", ctx.channel().remoteAddress().toString());
 	}
 
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-		try {
-			ByteBuf in = (ByteBuf)msg;
+//		try {
+			ByteBuf in = (ByteBuf) msg;
 
-			logger.debug("接收到信息:{}",in.toString(CharsetUtil.UTF_8));
-
-		} finally {
-			ReferenceCountUtil.release(msg);
-		}
+			logger.debug("接收到信息:{}", in.toString(CharsetUtil.UTF_8));
+			ctx.writeAndFlush(msg);
+//		} finally {
+//			ReferenceCountUtil.release(msg);
+//		}
 	}
 
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
 
-		logger.warn("连接异常",cause);
+		logger.warn("连接异常", cause);
 		ctx.close();
 
 	}
