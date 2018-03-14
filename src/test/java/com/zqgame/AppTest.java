@@ -1,19 +1,35 @@
 package com.zqgame;
 
-import junit.framework.TestCase;
+import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Unit test for simple App.
+ * @description
+ * @auther peng.chen
+ * @create 2018/3/14 13:32
  */
-public class AppTest
-		extends TestCase {
+public class AppTest {
 
+	private static Logger logger = LoggerFactory.getLogger(AppTest.class);
+
+	/**
+	 * @description
+	 * @auther peng.chen
+	 * @create 2018/3/14 13:29
+	 */
 	@Test
-	public void testApp(){
+	public void testApp() {
 		System.out.println("123456");
 
-		assertTrue(true);
+
+		logger.debug("test");
+
+		Assert.assertTrue(true);
+
+
+
 
 	}
 
