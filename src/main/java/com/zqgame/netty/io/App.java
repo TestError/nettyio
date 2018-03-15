@@ -1,4 +1,4 @@
-package com.zqgame.netty.io.test.netty.io;
+package com.zqgame.netty.io;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -33,7 +33,7 @@ public class App {
 
 		ServerBootstrap b = new ServerBootstrap();
 
-		ServerBootstrap serverBootstrap = b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class).childHandler(
+		b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class).childHandler(
 				new ChannelInitializer <SocketChannel>() {
 
 					@Override
@@ -45,7 +45,11 @@ public class App {
 
 		ChannelFuture f = b.bind(port).sync();
 
+		logger.debug(f.toString());
+
 		f.channel().closeFuture().sync();
+
+//		f.channel().close();
 
 		workerGroup.shutdownGracefully();
 		bossGroup.shutdownGracefully();
@@ -55,7 +59,7 @@ public class App {
 	public static void main(String[] args) throws InterruptedException {
 
 		new App(8000).run();
-
+//		new App(8001).run();
 
 	}
 
