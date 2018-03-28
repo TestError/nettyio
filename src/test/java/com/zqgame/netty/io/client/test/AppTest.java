@@ -1,4 +1,4 @@
-package com.zqgame.netty.io.test;
+package com.zqgame.netty.io.client.test;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -8,10 +8,9 @@ import org.slf4j.LoggerFactory;
 /**
  * @description
  * @auther peng.chen
- * @create 2018/3/14 13:32
+ * @create 2018/3/15 13:18
  */
 public class AppTest {
-
 	private static Logger logger = LoggerFactory.getLogger(AppTest.class);
 
 	/**
@@ -23,9 +22,8 @@ public class AppTest {
 	public void testApp() {
 		logger.debug("test");
 
-//		assert true;
-//		Assert.assertTrue(true);
+		Assert.assertTrue(true);
+
 
 	}
-
 }

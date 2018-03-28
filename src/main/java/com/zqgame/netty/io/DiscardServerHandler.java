@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.handler.codec.string.StringDecoder;
 import io.netty.util.CharsetUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,9 +58,12 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
 		ByteBuf time = ctx.alloc().buffer(4);
 		time.writeInt((int) (System.currentTimeMillis() / 1000L));
 
-		ChannelFuture f = ctx.writeAndFlush(time);
+		ChannelFuture f = ctx.writeAndFlush(time.toString());
 		logger.debug(ctx.channel().id().asShortText());
 		logger.debug(ctx.channel().toString());
+
+		f.channel().write("123456");
+
 //		logger.debug(f.toString());
 //		f.
 //		f.addListener(new ChannelFutureListener() {
@@ -78,11 +82,16 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 //		try {
-		ByteBuf in = (ByteBuf) msg;
 
-		String rev = in.toString(CharsetUtil.UTF_8);
+
+		String in = (String) msg;
+
+		String rev = in.toString();
 		logger.debug("接收到信息:{}", rev);
 		ctx.writeAndFlush(msg);
+
+
+
 
 		if (rev.equals("c")) {
 			ctx.channel().close();
