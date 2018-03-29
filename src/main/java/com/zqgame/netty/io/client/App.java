@@ -1,5 +1,6 @@
 package com.zqgame.netty.io.client;
 
+import com.zqgame.netty.io.proto.NettyIoProto;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -45,8 +46,8 @@ public class App {
 				protected void initChannel(SocketChannel ch) {
 
 
-					ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(65535,0,8,0,8));
-					ch.pipeline().addLast(new LengthFieldPrepender(8));
+					ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(65535,0,2,0,2));
+					ch.pipeline().addLast(new LengthFieldPrepender(2));
 
 
 					ch.pipeline().addLast(new StringEncoder());
@@ -72,6 +73,13 @@ public class App {
 	public static void main(String[] args) throws InterruptedException{
 
 		new App("127.0.0.1",8000).run();
+
+
+//		NettyIoProto.test test = NettyIoProto.test.newBuilder().setValue("111").build();
+
+
+
+
 
 	}
 }

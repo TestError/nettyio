@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package netty_io_proto;
+
+
+option java_package="com.zqgame.netty.io.proto";
+
+message test
+{
+
+    repeated string value = 1;
+
+}

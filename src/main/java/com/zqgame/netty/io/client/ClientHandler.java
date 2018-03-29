@@ -28,8 +28,6 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 		}
 
 
-
-
 		ChannelPromise channelPromise = ctx.newPromise();
 
 		channelPromise.addListener(
