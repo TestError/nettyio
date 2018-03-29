@@ -5,7 +5,21 @@ package netty_io_proto;
 
 option java_package="com.zqgame.netty.io.proto";
 
-message test
+//报文头部
+message Head
+{
+    string protoClassName = 1;
+    string toMethod = 2;    //执行的方法
+    //string channelId = 2;   //频道Id
+}
+
+message Base
+{
+    Head header = 1;
+    bytes body = 2;
+}
+
+message Test
 {
 
     repeated string value = 1;
