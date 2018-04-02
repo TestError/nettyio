@@ -10,6 +10,7 @@ message Head
 {
     string protoClassName = 1;
     string toMethod = 2;    //执行的方法
+    string protoName = 3;   //协议名
     //string channelId = 2;   //频道Id
 }
 
