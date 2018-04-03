@@ -43,8 +43,8 @@ public class ProtoTest {
 		Message message = (Message)aClass.getMethod("parseFrom",byte[].class).invoke(aClass,byteArray);
 
 
-
-
+//		message.
+		logger.debug(message.getDescriptorForType().getName());
 //		messageOrBuilder
 		logger.debug(message.getClass().getName());
 

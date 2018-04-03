@@ -1,5 +1,8 @@
 package com.zqgame.netty.io;
 
+import com.zqgame.netty.io.common.Constant;
+import com.zqgame.netty.io.exceptions.BusinessException;
+import com.zqgame.netty.io.exceptions.enums.ExceptionEnum;
 import com.zqgame.netty.io.proto.NettyIoProto;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -92,9 +95,13 @@ public class App {
 
 	public static void main(String[] args) throws InterruptedException {
 
+		logger.debug( Constant.IS_DEBUG  + "={}", System.getProperty( Constant.IS_DEBUG ) == null ? true : System.getProperty( Constant.IS_DEBUG ).equals( Constant.TRUE ) );
 
 
-		new App(8000).run();
+		run1();
+//		logger.info( "开始跑了" );
+//		new App(8000).run();
+
 //		new App(8001).run();
 
 	/*	new Thread(() -> {
@@ -121,5 +128,11 @@ public class App {
 		}));
 */
 	}
+
+	public static void run1(){
+		throw new BusinessException( ExceptionEnum.SERVER_ERROR );
+
+	}
+
 
 }

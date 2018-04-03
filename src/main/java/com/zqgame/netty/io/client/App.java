@@ -72,7 +72,7 @@ public class App {
 
 	public static void main(String[] args) throws InterruptedException{
 
-		new App("127.0.0.1",8000).run();
+//		new App("127.0.0.1",8000).run();
 
 
 //		NettyIoProto.test test = NettyIoProto.test.newBuilder().setValue("111").build();

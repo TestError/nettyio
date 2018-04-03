@@ -1,28 +1,34 @@
 syntax = "proto3";
 
-package netty_io_proto;
+package com.zqgame.netty.io.proto.NettyIoProto;
 
-
+//要求与package的前面部分对应 peng.chen 2018/04/03 16:31:10
 option java_package="com.zqgame.netty.io.proto";
+
+//要求与package最后一个部分对应 peng.chen 2018/04/03 16:31:12
+option java_outer_classname="NettyIoProto";
 
 //报文头部
 message Head
 {
-    string protoClassName = 1;
+    string proto = 1;   //协议名
     string toMethod = 2;    //执行的方法
-    string protoName = 3;   //协议名
-    //string channelId = 2;   //频道Id
 }
 
+//消息主体
 message Base
 {
-    Head header = 1;
-    bytes body = 2;
+    Head header = 1;    //报头
+    bytes body = 2; //内容
+    string statusCode = 3;  //状态    200,404,503,403  与HTTP状态相同
+    int32 errorCode = 4;    //错误码   确认唯一一条错误的码.
+    string description = 5; //错误描述
 }
+
+
+//下面就是一些Body内容  这些内容会被转成二进制放入body中------------------
 
 message Test
 {
-
     repeated string value = 1;
-
 }
