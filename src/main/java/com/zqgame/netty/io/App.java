@@ -78,7 +78,7 @@ public class App {
 
 
 
-//		f.channel().closeFuture().sync();
+		f.channel().closeFuture().sync();
 
 //		f.channel().close();
 

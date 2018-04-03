@@ -23,6 +23,9 @@ public class AppTest {
 	public void testApp() {
 		logger.debug("test");
 
+
+
+
 //		assert true;
 //		Assert.assertTrue(true);
 
