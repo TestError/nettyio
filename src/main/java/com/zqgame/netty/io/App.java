@@ -130,8 +130,14 @@ public class App {
 	}
 
 	public static void run1(){
-		throw new BusinessException( ExceptionEnum.SERVER_ERROR );
+		RuntimeException runtimeException = new BusinessException();
+		throw runtimeException;
 
+//		runtimeException.printStackTrace();
+
+//		throw runtimeException;
+
+//		throw new RuntimeException( "测试",null,false,false);
 	}
 
 

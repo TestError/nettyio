@@ -18,7 +18,7 @@ public class BusinessException extends RuntimeException {
 	 * 不允许外部调用
 	 * peng.chen 2018/04/03 17:17:42
 	 */
-	private BusinessException() {
+	public BusinessException() {
 	}
 
 	;
@@ -50,9 +50,10 @@ public class BusinessException extends RuntimeException {
 	 * @param cause         原因
 	 */
 	public BusinessException(ExceptionEnum exceptionEnum, String detail, Throwable cause) {
-		super( detail == null ? exceptionEnum.getDescription() : new StringBuilder( exceptionEnum.getDescription() ).append( ":" ).append( detail ).toString(),
+		// detail == null ? exceptionEnum.getDescription() : new StringBuilder( exceptionEnum.getDescription() ).append( ":" ).append( detail ).toString()
+		super(exceptionEnum.getDescription(),
 				cause,
-				false,
+				true,
 				//System.getProperty( Constant.IS_DEBUG ) != null ? !System.getProperty( Constant.IS_DEBUG ).equals( Constant.TRUE ) : false
 				false
 		);
@@ -69,4 +70,9 @@ public class BusinessException extends RuntimeException {
 	public String getDetail() {
 		return detail;
 	}
+
+//	public BusinessException() {
+//		super("测试异常",null,true,false);
+//	}
+
 }
