@@ -130,7 +130,7 @@ public class App {
 	}
 
 	public static void run1(){
-		RuntimeException runtimeException = new BusinessException();
+		BusinessException runtimeException = new BusinessException(ExceptionEnum.SERVER_ERROR);
 		throw runtimeException;
 
 //		runtimeException.printStackTrace();

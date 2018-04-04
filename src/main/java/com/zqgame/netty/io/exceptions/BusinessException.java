@@ -12,67 +12,60 @@ public class BusinessException extends RuntimeException {
 
 	private ExceptionEnum exceptionEnum;
 
-	private String detail;
+	private String detailMessage;
 
 	/**
 	 * 不允许外部调用
 	 * peng.chen 2018/04/03 17:17:42
 	 */
-	public BusinessException() {
+	private BusinessException() {
 	}
 
-	;
 
 
 	/**
 	 * @param exceptionEnum 异常枚举
 	 */
 	public BusinessException(ExceptionEnum exceptionEnum) {
-		new BusinessException( exceptionEnum, (String) null );
+		this( exceptionEnum, (String) null );
 	}
 
 	public BusinessException(ExceptionEnum exceptionEnum, Throwable cause) {
-		new BusinessException( exceptionEnum, null, cause );
+		this( exceptionEnum, null, cause );
 	}
 
 	/**
 	 * @param exceptionEnum 异常枚举
-	 * @param detail        明细信息
+	 * @param detailMessage        明细信息
 	 */
-	public BusinessException(ExceptionEnum exceptionEnum, String detail) {
-		new BusinessException( exceptionEnum, detail, null );
+	public BusinessException(ExceptionEnum exceptionEnum, String detailMessage) {
+
+		this(exceptionEnum,detailMessage,null);
 	}
 
-
-	/**
-	 * @param exceptionEnum 异常枚举
-	 * @param detail        明细信息
-	 * @param cause         原因
-	 */
-	public BusinessException(ExceptionEnum exceptionEnum, String detail, Throwable cause) {
-		// detail == null ? exceptionEnum.getDescription() : new StringBuilder( exceptionEnum.getDescription() ).append( ":" ).append( detail ).toString()
-		super(exceptionEnum.getDescription(),
-				cause,
-				true,
-				//System.getProperty( Constant.IS_DEBUG ) != null ? !System.getProperty( Constant.IS_DEBUG ).equals( Constant.TRUE ) : false
-				false
-		);
-
-
-		this.exceptionEnum = exceptionEnum;
-		this.detail = detail;
-	}
 
 	public ExceptionEnum getExceptionEnum() {
 		return exceptionEnum;
 	}
 
-	public String getDetail() {
-		return detail;
+	public String getDetailMessage() {
+		return detailMessage;
 	}
 
-//	public BusinessException() {
-//		super("测试异常",null,true,false);
-//	}
+	/**
+	 * @param exceptionEnum 异常枚举
+	 * @param detailMessage 明细信息
+	 * @param cause         原因
+	 **/
+	public BusinessException(ExceptionEnum exceptionEnum, String detailMessage, Throwable cause) {
+		super( detailMessage == null ? exceptionEnum.getDescription() : new StringBuilder( exceptionEnum.getDescription() ).append( ":" ).append( detailMessage ).toString(),
+				cause,
+				true,
+				System.getProperty( Constant.IS_DEBUG ) != null ? !System.getProperty( Constant.IS_DEBUG ).equals( Constant.TRUE ) : false );
+
+		this.exceptionEnum = exceptionEnum;
+		this.detailMessage = detailMessage;
+
+	}
 
 }
