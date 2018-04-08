@@ -1,7 +1,5 @@
 package com.zqgame.netty.io.exceptions.enums;
 
-import io.netty.handler.codec.http.HttpStatusClass;
-
 /**
  * @description 统一的事务异常枚举
  * @auther peng.chen
@@ -23,7 +21,7 @@ public enum  ExceptionEnum {
 
 
 
-	private ExceptionEnum(String statusCode,int errorCode,String description){
+	ExceptionEnum(String statusCode, int errorCode, String description){
 		this.statusCode = statusCode;
 		this.errorCode = errorCode;
 		this.description = description;

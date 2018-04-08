@@ -95,12 +95,9 @@ public class App {
 
 	public static void main(String[] args) throws InterruptedException {
 
-		logger.debug( Constant.IS_DEBUG  + "={}", System.getProperty( Constant.IS_DEBUG ) == null ? true : System.getProperty( Constant.IS_DEBUG ).equals( Constant.TRUE ) );
 
-
-		run1();
 //		logger.info( "开始跑了" );
-//		new App(8000).run();
+		new App(8000).run();
 
 //		new App(8001).run();
 
@@ -127,17 +124,6 @@ public class App {
 
 		}));
 */
-	}
-
-	public static void run1(){
-		BusinessException runtimeException = new BusinessException(ExceptionEnum.SERVER_ERROR);
-		throw runtimeException;
-
-//		runtimeException.printStackTrace();
-
-//		throw runtimeException;
-
-//		throw new RuntimeException( "测试",null,false,false);
 	}
 
 

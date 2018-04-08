@@ -1,6 +1,7 @@
 package com.zqgame.netty.io.exceptions;
 
 import com.zqgame.netty.io.common.Constant;
+import com.zqgame.netty.io.common.SystemProperty;
 import com.zqgame.netty.io.exceptions.enums.ExceptionEnum;
 
 /**
@@ -20,8 +21,6 @@ public class BusinessException extends RuntimeException {
 	 */
 	private BusinessException() {
 	}
-
-
 
 	/**
 	 * @param exceptionEnum 异常枚举
@@ -61,7 +60,7 @@ public class BusinessException extends RuntimeException {
 		super( detailMessage == null ? exceptionEnum.getDescription() : new StringBuilder( exceptionEnum.getDescription() ).append( ":" ).append( detailMessage ).toString(),
 				cause,
 				true,
-				System.getProperty( Constant.IS_DEBUG ) != null ? !System.getProperty( Constant.IS_DEBUG ).equals( Constant.TRUE ) : false );
+				SystemProperty.IS_DEBUG );
 
 		this.exceptionEnum = exceptionEnum;
 		this.detailMessage = detailMessage;
