@@ -12,7 +12,7 @@ option java_outer_classname="NettyIoProto";
 message Head
 {
     string proto = 1;   //协议名
-    string toMethod = 2;    //执行的方法
+    //string toMethod = 2;    //执行的方法
 }
 
 //消息主体
@@ -28,7 +28,13 @@ message Base
 
 //下面就是一些Body内容  这些内容会被转成二进制放入body中------------------
 
+enum TestEnum {
+    ONE = 0;
+    TOW = 1;
+}
+
 message Test
 {
     repeated string value = 1;
+    TestEnum testEnum = 2;
 }

@@ -3,6 +3,8 @@ package com.zqgame.netty.io;
 import com.zqgame.netty.io.common.Constant;
 import com.zqgame.netty.io.exceptions.BusinessException;
 import com.zqgame.netty.io.exceptions.enums.ExceptionEnum;
+import com.zqgame.netty.io.handle.BaseServerProtoMessageDecode;
+import com.zqgame.netty.io.handle.BaseServerProtoMessageEncode;
 import com.zqgame.netty.io.proto.NettyIoProto;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -58,6 +60,10 @@ public class App {
 
 						socketChannel.pipeline().addLast(new ProtobufEncoder());
 						socketChannel.pipeline().addLast(new ProtobufDecoder(NettyIoProto.Base.getDefaultInstance()));
+
+						socketChannel.pipeline().addLast( new BaseServerProtoMessageDecode() );
+						socketChannel.pipeline().addLast( new BaseServerProtoMessageEncode() );
+
 //						socketChannel.pipeline().addLast(new LengthFieldBasedFrameDecoder(65535,0,2,0,2));
 //						socketChannel.pipeline().addLast(new LengthFieldPrepender(8));
 

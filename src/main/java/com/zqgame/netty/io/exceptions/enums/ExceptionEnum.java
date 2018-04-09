@@ -9,7 +9,9 @@ public enum  ExceptionEnum {
 
 	SERVER_ERROR("503",1,"服务异常,请稍后重试!"),
 
-	PARAMETER_ERROR("403",2,"参数错误")
+	PARAMETER_ERROR("403",2,"参数错误"),
+
+	NULL_PROTO_NAME_ERROR("403",3,"空白的协议名!")
 
 	,;
 

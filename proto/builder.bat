@@ -1,1 +1,1 @@
-protoc *.proto --java_out=../src/main/java/
+protoc netty_io_proto.proto --java_out=../src/main/java/

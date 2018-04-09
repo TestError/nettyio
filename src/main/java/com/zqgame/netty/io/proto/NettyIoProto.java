@@ -14,6 +14,104 @@ public final class NettyIoProto {
     registerAllExtensions(
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
+  /**
+   * Protobuf enum {@code com.zqgame.netty.io.proto.NettyIoProto.TestEnum}
+   */
+  public enum TestEnum
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>ONE = 0;</code>
+     */
+    ONE(0),
+    /**
+     * <code>TOW = 1;</code>
+     */
+    TOW(1),
+    UNRECOGNIZED(-1),
+    ;
+
+    /**
+     * <code>ONE = 0;</code>
+     */
+    public static final int ONE_VALUE = 0;
+    /**
+     * <code>TOW = 1;</code>
+     */
+    public static final int TOW_VALUE = 1;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static TestEnum valueOf(int value) {
+      return forNumber(value);
+    }
+
+    public static TestEnum forNumber(int value) {
+      switch (value) {
+        case 0: return ONE;
+        case 1: return TOW;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<TestEnum>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        TestEnum> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<TestEnum>() {
+            public TestEnum findValueByNumber(int number) {
+              return TestEnum.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.zqgame.netty.io.proto.NettyIoProto.getDescriptor().getEnumTypes().get(0);
+    }
+
+    private static final TestEnum[] VALUES = values();
+
+    public static TestEnum valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private TestEnum(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:com.zqgame.netty.io.proto.NettyIoProto.TestEnum)
+  }
+
   public interface HeadOrBuilder extends
       // @@protoc_insertion_point(interface_extends:com.zqgame.netty.io.proto.NettyIoProto.Head)
       com.google.protobuf.MessageOrBuilder {
@@ -35,24 +133,6 @@ public final class NettyIoProto {
      */
     com.google.protobuf.ByteString
         getProtoBytes();
-
-    /**
-     * <pre>
-     *执行的方法
-     * </pre>
-     *
-     * <code>string toMethod = 2;</code>
-     */
-    java.lang.String getToMethod();
-    /**
-     * <pre>
-     *执行的方法
-     * </pre>
-     *
-     * <code>string toMethod = 2;</code>
-     */
-    com.google.protobuf.ByteString
-        getToMethodBytes();
   }
   /**
    * <pre>
@@ -72,7 +152,6 @@ public final class NettyIoProto {
     }
     private Head() {
       proto_ = "";
-      toMethod_ = "";
     }
 
     @java.lang.Override
@@ -110,12 +189,6 @@ public final class NettyIoProto {
               java.lang.String s = input.readStringRequireUtf8();
 
               proto_ = s;
-              break;
-            }
-            case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              toMethod_ = s;
               break;
             }
           }
@@ -184,48 +257,6 @@ public final class NettyIoProto {
       }
     }
 
-    public static final int TOMETHOD_FIELD_NUMBER = 2;
-    private volatile java.lang.Object toMethod_;
-    /**
-     * <pre>
-     *执行的方法
-     * </pre>
-     *
-     * <code>string toMethod = 2;</code>
-     */
-    public java.lang.String getToMethod() {
-      java.lang.Object ref = toMethod_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        toMethod_ = s;
-        return s;
-      }
-    }
-    /**
-     * <pre>
-     *执行的方法
-     * </pre>
-     *
-     * <code>string toMethod = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-        getToMethodBytes() {
-      java.lang.Object ref = toMethod_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        toMethod_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -241,9 +272,6 @@ public final class NettyIoProto {
       if (!getProtoBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, proto_);
       }
-      if (!getToMethodBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, toMethod_);
-      }
       unknownFields.writeTo(output);
     }
 
@@ -254,9 +282,6 @@ public final class NettyIoProto {
       size = 0;
       if (!getProtoBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, proto_);
-      }
-      if (!getToMethodBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, toMethod_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -276,8 +301,6 @@ public final class NettyIoProto {
       boolean result = true;
       result = result && getProto()
           .equals(other.getProto());
-      result = result && getToMethod()
-          .equals(other.getToMethod());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -291,8 +314,6 @@ public final class NettyIoProto {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + PROTO_FIELD_NUMBER;
       hash = (53 * hash) + getProto().hashCode();
-      hash = (37 * hash) + TOMETHOD_FIELD_NUMBER;
-      hash = (53 * hash) + getToMethod().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -428,8 +449,6 @@ public final class NettyIoProto {
         super.clear();
         proto_ = "";
 
-        toMethod_ = "";
-
         return this;
       }
 
@@ -453,7 +472,6 @@ public final class NettyIoProto {
       public com.zqgame.netty.io.proto.NettyIoProto.Head buildPartial() {
         com.zqgame.netty.io.proto.NettyIoProto.Head result = new com.zqgame.netty.io.proto.NettyIoProto.Head(this);
         result.proto_ = proto_;
-        result.toMethod_ = toMethod_;
         onBuilt();
         return result;
       }
@@ -497,10 +515,6 @@ public final class NettyIoProto {
         if (other == com.zqgame.netty.io.proto.NettyIoProto.Head.getDefaultInstance()) return this;
         if (!other.getProto().isEmpty()) {
           proto_ = other.proto_;
-          onChanged();
-        }
-        if (!other.getToMethod().isEmpty()) {
-          toMethod_ = other.toMethod_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -618,95 +632,6 @@ public final class NettyIoProto {
         onChanged();
         return this;
       }
-
-      private java.lang.Object toMethod_ = "";
-      /**
-       * <pre>
-       *执行的方法
-       * </pre>
-       *
-       * <code>string toMethod = 2;</code>
-       */
-      public java.lang.String getToMethod() {
-        java.lang.Object ref = toMethod_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          toMethod_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <pre>
-       *执行的方法
-       * </pre>
-       *
-       * <code>string toMethod = 2;</code>
-       */
-      public com.google.protobuf.ByteString
-          getToMethodBytes() {
-        java.lang.Object ref = toMethod_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          toMethod_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <pre>
-       *执行的方法
-       * </pre>
-       *
-       * <code>string toMethod = 2;</code>
-       */
-      public Builder setToMethod(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        toMethod_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       *执行的方法
-       * </pre>
-       *
-       * <code>string toMethod = 2;</code>
-       */
-      public Builder clearToMethod() {
-        
-        toMethod_ = getDefaultInstance().getToMethod();
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       *执行的方法
-       * </pre>
-       *
-       * <code>string toMethod = 2;</code>
-       */
-      public Builder setToMethodBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        toMethod_ = value;
-        onChanged();
-        return this;
-      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFieldsProto3(unknownFields);
@@ -761,24 +686,89 @@ public final class NettyIoProto {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     *报头
+     * </pre>
+     *
      * <code>.com.zqgame.netty.io.proto.NettyIoProto.Head header = 1;</code>
      */
     boolean hasHeader();
     /**
+     * <pre>
+     *报头
+     * </pre>
+     *
      * <code>.com.zqgame.netty.io.proto.NettyIoProto.Head header = 1;</code>
      */
     com.zqgame.netty.io.proto.NettyIoProto.Head getHeader();
     /**
+     * <pre>
+     *报头
+     * </pre>
+     *
      * <code>.com.zqgame.netty.io.proto.NettyIoProto.Head header = 1;</code>
      */
     com.zqgame.netty.io.proto.NettyIoProto.HeadOrBuilder getHeaderOrBuilder();
 
     /**
+     * <pre>
+     *内容
+     * </pre>
+     *
      * <code>bytes body = 2;</code>
      */
     com.google.protobuf.ByteString getBody();
+
+    /**
+     * <pre>
+     *状态    200,404,503,403  与HTTP状态相同
+     * </pre>
+     *
+     * <code>string statusCode = 3;</code>
+     */
+    java.lang.String getStatusCode();
+    /**
+     * <pre>
+     *状态    200,404,503,403  与HTTP状态相同
+     * </pre>
+     *
+     * <code>string statusCode = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getStatusCodeBytes();
+
+    /**
+     * <pre>
+     *错误码   确认唯一一条错误的码.
+     * </pre>
+     *
+     * <code>int32 errorCode = 4;</code>
+     */
+    int getErrorCode();
+
+    /**
+     * <pre>
+     *错误描述
+     * </pre>
+     *
+     * <code>string description = 5;</code>
+     */
+    java.lang.String getDescription();
+    /**
+     * <pre>
+     *错误描述
+     * </pre>
+     *
+     * <code>string description = 5;</code>
+     */
+    com.google.protobuf.ByteString
+        getDescriptionBytes();
   }
   /**
+   * <pre>
+   *消息主体
+   * </pre>
+   *
    * Protobuf type {@code com.zqgame.netty.io.proto.NettyIoProto.Base}
    */
   public  static final class Base extends
@@ -792,6 +782,9 @@ public final class NettyIoProto {
     }
     private Base() {
       body_ = com.google.protobuf.ByteString.EMPTY;
+      statusCode_ = "";
+      errorCode_ = 0;
+      description_ = "";
     }
 
     @java.lang.Override
@@ -843,6 +836,23 @@ public final class NettyIoProto {
               body_ = input.readBytes();
               break;
             }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              statusCode_ = s;
+              break;
+            }
+            case 32: {
+
+              errorCode_ = input.readInt32();
+              break;
+            }
+            case 42: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              description_ = s;
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -870,18 +880,30 @@ public final class NettyIoProto {
     public static final int HEADER_FIELD_NUMBER = 1;
     private com.zqgame.netty.io.proto.NettyIoProto.Head header_;
     /**
+     * <pre>
+     *报头
+     * </pre>
+     *
      * <code>.com.zqgame.netty.io.proto.NettyIoProto.Head header = 1;</code>
      */
     public boolean hasHeader() {
       return header_ != null;
     }
     /**
+     * <pre>
+     *报头
+     * </pre>
+     *
      * <code>.com.zqgame.netty.io.proto.NettyIoProto.Head header = 1;</code>
      */
     public com.zqgame.netty.io.proto.NettyIoProto.Head getHeader() {
       return header_ == null ? com.zqgame.netty.io.proto.NettyIoProto.Head.getDefaultInstance() : header_;
     }
     /**
+     * <pre>
+     *报头
+     * </pre>
+     *
      * <code>.com.zqgame.netty.io.proto.NettyIoProto.Head header = 1;</code>
      */
     public com.zqgame.netty.io.proto.NettyIoProto.HeadOrBuilder getHeaderOrBuilder() {
@@ -891,10 +913,111 @@ public final class NettyIoProto {
     public static final int BODY_FIELD_NUMBER = 2;
     private com.google.protobuf.ByteString body_;
     /**
+     * <pre>
+     *内容
+     * </pre>
+     *
      * <code>bytes body = 2;</code>
      */
     public com.google.protobuf.ByteString getBody() {
       return body_;
+    }
+
+    public static final int STATUSCODE_FIELD_NUMBER = 3;
+    private volatile java.lang.Object statusCode_;
+    /**
+     * <pre>
+     *状态    200,404,503,403  与HTTP状态相同
+     * </pre>
+     *
+     * <code>string statusCode = 3;</code>
+     */
+    public java.lang.String getStatusCode() {
+      java.lang.Object ref = statusCode_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        statusCode_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     *状态    200,404,503,403  与HTTP状态相同
+     * </pre>
+     *
+     * <code>string statusCode = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getStatusCodeBytes() {
+      java.lang.Object ref = statusCode_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        statusCode_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int ERRORCODE_FIELD_NUMBER = 4;
+    private int errorCode_;
+    /**
+     * <pre>
+     *错误码   确认唯一一条错误的码.
+     * </pre>
+     *
+     * <code>int32 errorCode = 4;</code>
+     */
+    public int getErrorCode() {
+      return errorCode_;
+    }
+
+    public static final int DESCRIPTION_FIELD_NUMBER = 5;
+    private volatile java.lang.Object description_;
+    /**
+     * <pre>
+     *错误描述
+     * </pre>
+     *
+     * <code>string description = 5;</code>
+     */
+    public java.lang.String getDescription() {
+      java.lang.Object ref = description_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        description_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     *错误描述
+     * </pre>
+     *
+     * <code>string description = 5;</code>
+     */
+    public com.google.protobuf.ByteString
+        getDescriptionBytes() {
+      java.lang.Object ref = description_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        description_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     private byte memoizedIsInitialized = -1;
@@ -915,6 +1038,15 @@ public final class NettyIoProto {
       if (!body_.isEmpty()) {
         output.writeBytes(2, body_);
       }
+      if (!getStatusCodeBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, statusCode_);
+      }
+      if (errorCode_ != 0) {
+        output.writeInt32(4, errorCode_);
+      }
+      if (!getDescriptionBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, description_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -930,6 +1062,16 @@ public final class NettyIoProto {
       if (!body_.isEmpty()) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(2, body_);
+      }
+      if (!getStatusCodeBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, statusCode_);
+      }
+      if (errorCode_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, errorCode_);
+      }
+      if (!getDescriptionBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, description_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -954,6 +1096,12 @@ public final class NettyIoProto {
       }
       result = result && getBody()
           .equals(other.getBody());
+      result = result && getStatusCode()
+          .equals(other.getStatusCode());
+      result = result && (getErrorCode()
+          == other.getErrorCode());
+      result = result && getDescription()
+          .equals(other.getDescription());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -971,6 +1119,12 @@ public final class NettyIoProto {
       }
       hash = (37 * hash) + BODY_FIELD_NUMBER;
       hash = (53 * hash) + getBody().hashCode();
+      hash = (37 * hash) + STATUSCODE_FIELD_NUMBER;
+      hash = (53 * hash) + getStatusCode().hashCode();
+      hash = (37 * hash) + ERRORCODE_FIELD_NUMBER;
+      hash = (53 * hash) + getErrorCode();
+      hash = (37 * hash) + DESCRIPTION_FIELD_NUMBER;
+      hash = (53 * hash) + getDescription().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1065,6 +1219,10 @@ public final class NettyIoProto {
       return builder;
     }
     /**
+     * <pre>
+     *消息主体
+     * </pre>
+     *
      * Protobuf type {@code com.zqgame.netty.io.proto.NettyIoProto.Base}
      */
     public static final class Builder extends
@@ -1108,6 +1266,12 @@ public final class NettyIoProto {
         }
         body_ = com.google.protobuf.ByteString.EMPTY;
 
+        statusCode_ = "";
+
+        errorCode_ = 0;
+
+        description_ = "";
+
         return this;
       }
 
@@ -1136,6 +1300,9 @@ public final class NettyIoProto {
           result.header_ = headerBuilder_.build();
         }
         result.body_ = body_;
+        result.statusCode_ = statusCode_;
+        result.errorCode_ = errorCode_;
+        result.description_ = description_;
         onBuilt();
         return result;
       }
@@ -1183,6 +1350,17 @@ public final class NettyIoProto {
         if (other.getBody() != com.google.protobuf.ByteString.EMPTY) {
           setBody(other.getBody());
         }
+        if (!other.getStatusCode().isEmpty()) {
+          statusCode_ = other.statusCode_;
+          onChanged();
+        }
+        if (other.getErrorCode() != 0) {
+          setErrorCode(other.getErrorCode());
+        }
+        if (!other.getDescription().isEmpty()) {
+          description_ = other.description_;
+          onChanged();
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -1214,12 +1392,20 @@ public final class NettyIoProto {
       private com.google.protobuf.SingleFieldBuilderV3<
           com.zqgame.netty.io.proto.NettyIoProto.Head, com.zqgame.netty.io.proto.NettyIoProto.Head.Builder, com.zqgame.netty.io.proto.NettyIoProto.HeadOrBuilder> headerBuilder_;
       /**
+       * <pre>
+       *报头
+       * </pre>
+       *
        * <code>.com.zqgame.netty.io.proto.NettyIoProto.Head header = 1;</code>
        */
       public boolean hasHeader() {
         return headerBuilder_ != null || header_ != null;
       }
       /**
+       * <pre>
+       *报头
+       * </pre>
+       *
        * <code>.com.zqgame.netty.io.proto.NettyIoProto.Head header = 1;</code>
        */
       public com.zqgame.netty.io.proto.NettyIoProto.Head getHeader() {
@@ -1230,6 +1416,10 @@ public final class NettyIoProto {
         }
       }
       /**
+       * <pre>
+       *报头
+       * </pre>
+       *
        * <code>.com.zqgame.netty.io.proto.NettyIoProto.Head header = 1;</code>
        */
       public Builder setHeader(com.zqgame.netty.io.proto.NettyIoProto.Head value) {
@@ -1246,6 +1436,10 @@ public final class NettyIoProto {
         return this;
       }
       /**
+       * <pre>
+       *报头
+       * </pre>
+       *
        * <code>.com.zqgame.netty.io.proto.NettyIoProto.Head header = 1;</code>
        */
       public Builder setHeader(
@@ -1260,6 +1454,10 @@ public final class NettyIoProto {
         return this;
       }
       /**
+       * <pre>
+       *报头
+       * </pre>
+       *
        * <code>.com.zqgame.netty.io.proto.NettyIoProto.Head header = 1;</code>
        */
       public Builder mergeHeader(com.zqgame.netty.io.proto.NettyIoProto.Head value) {
@@ -1278,6 +1476,10 @@ public final class NettyIoProto {
         return this;
       }
       /**
+       * <pre>
+       *报头
+       * </pre>
+       *
        * <code>.com.zqgame.netty.io.proto.NettyIoProto.Head header = 1;</code>
        */
       public Builder clearHeader() {
@@ -1292,6 +1494,10 @@ public final class NettyIoProto {
         return this;
       }
       /**
+       * <pre>
+       *报头
+       * </pre>
+       *
        * <code>.com.zqgame.netty.io.proto.NettyIoProto.Head header = 1;</code>
        */
       public com.zqgame.netty.io.proto.NettyIoProto.Head.Builder getHeaderBuilder() {
@@ -1300,6 +1506,10 @@ public final class NettyIoProto {
         return getHeaderFieldBuilder().getBuilder();
       }
       /**
+       * <pre>
+       *报头
+       * </pre>
+       *
        * <code>.com.zqgame.netty.io.proto.NettyIoProto.Head header = 1;</code>
        */
       public com.zqgame.netty.io.proto.NettyIoProto.HeadOrBuilder getHeaderOrBuilder() {
@@ -1311,6 +1521,10 @@ public final class NettyIoProto {
         }
       }
       /**
+       * <pre>
+       *报头
+       * </pre>
+       *
        * <code>.com.zqgame.netty.io.proto.NettyIoProto.Head header = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
@@ -1329,12 +1543,20 @@ public final class NettyIoProto {
 
       private com.google.protobuf.ByteString body_ = com.google.protobuf.ByteString.EMPTY;
       /**
+       * <pre>
+       *内容
+       * </pre>
+       *
        * <code>bytes body = 2;</code>
        */
       public com.google.protobuf.ByteString getBody() {
         return body_;
       }
       /**
+       * <pre>
+       *内容
+       * </pre>
+       *
        * <code>bytes body = 2;</code>
        */
       public Builder setBody(com.google.protobuf.ByteString value) {
@@ -1347,11 +1569,231 @@ public final class NettyIoProto {
         return this;
       }
       /**
+       * <pre>
+       *内容
+       * </pre>
+       *
        * <code>bytes body = 2;</code>
        */
       public Builder clearBody() {
         
         body_ = getDefaultInstance().getBody();
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object statusCode_ = "";
+      /**
+       * <pre>
+       *状态    200,404,503,403  与HTTP状态相同
+       * </pre>
+       *
+       * <code>string statusCode = 3;</code>
+       */
+      public java.lang.String getStatusCode() {
+        java.lang.Object ref = statusCode_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          statusCode_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       *状态    200,404,503,403  与HTTP状态相同
+       * </pre>
+       *
+       * <code>string statusCode = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getStatusCodeBytes() {
+        java.lang.Object ref = statusCode_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          statusCode_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       *状态    200,404,503,403  与HTTP状态相同
+       * </pre>
+       *
+       * <code>string statusCode = 3;</code>
+       */
+      public Builder setStatusCode(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        statusCode_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *状态    200,404,503,403  与HTTP状态相同
+       * </pre>
+       *
+       * <code>string statusCode = 3;</code>
+       */
+      public Builder clearStatusCode() {
+        
+        statusCode_ = getDefaultInstance().getStatusCode();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *状态    200,404,503,403  与HTTP状态相同
+       * </pre>
+       *
+       * <code>string statusCode = 3;</code>
+       */
+      public Builder setStatusCodeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        statusCode_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int errorCode_ ;
+      /**
+       * <pre>
+       *错误码   确认唯一一条错误的码.
+       * </pre>
+       *
+       * <code>int32 errorCode = 4;</code>
+       */
+      public int getErrorCode() {
+        return errorCode_;
+      }
+      /**
+       * <pre>
+       *错误码   确认唯一一条错误的码.
+       * </pre>
+       *
+       * <code>int32 errorCode = 4;</code>
+       */
+      public Builder setErrorCode(int value) {
+        
+        errorCode_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *错误码   确认唯一一条错误的码.
+       * </pre>
+       *
+       * <code>int32 errorCode = 4;</code>
+       */
+      public Builder clearErrorCode() {
+        
+        errorCode_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object description_ = "";
+      /**
+       * <pre>
+       *错误描述
+       * </pre>
+       *
+       * <code>string description = 5;</code>
+       */
+      public java.lang.String getDescription() {
+        java.lang.Object ref = description_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          description_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       *错误描述
+       * </pre>
+       *
+       * <code>string description = 5;</code>
+       */
+      public com.google.protobuf.ByteString
+          getDescriptionBytes() {
+        java.lang.Object ref = description_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          description_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       *错误描述
+       * </pre>
+       *
+       * <code>string description = 5;</code>
+       */
+      public Builder setDescription(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        description_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *错误描述
+       * </pre>
+       *
+       * <code>string description = 5;</code>
+       */
+      public Builder clearDescription() {
+        
+        description_ = getDefaultInstance().getDescription();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *错误描述
+       * </pre>
+       *
+       * <code>string description = 5;</code>
+       */
+      public Builder setDescriptionBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        description_ = value;
         onChanged();
         return this;
       }
@@ -1426,6 +1868,15 @@ public final class NettyIoProto {
      */
     com.google.protobuf.ByteString
         getValueBytes(int index);
+
+    /**
+     * <code>.com.zqgame.netty.io.proto.NettyIoProto.TestEnum testEnum = 2;</code>
+     */
+    int getTestEnumValue();
+    /**
+     * <code>.com.zqgame.netty.io.proto.NettyIoProto.TestEnum testEnum = 2;</code>
+     */
+    com.zqgame.netty.io.proto.NettyIoProto.TestEnum getTestEnum();
   }
   /**
    * Protobuf type {@code com.zqgame.netty.io.proto.NettyIoProto.Test}
@@ -1441,6 +1892,7 @@ public final class NettyIoProto {
     }
     private Test() {
       value_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      testEnum_ = 0;
     }
 
     @java.lang.Override
@@ -1483,6 +1935,12 @@ public final class NettyIoProto {
               value_.add(s);
               break;
             }
+            case 16: {
+              int rawValue = input.readEnum();
+
+              testEnum_ = rawValue;
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1510,6 +1968,7 @@ public final class NettyIoProto {
               com.zqgame.netty.io.proto.NettyIoProto.Test.class, com.zqgame.netty.io.proto.NettyIoProto.Test.Builder.class);
     }
 
+    private int bitField0_;
     public static final int VALUE_FIELD_NUMBER = 1;
     private com.google.protobuf.LazyStringList value_;
     /**
@@ -1539,6 +1998,22 @@ public final class NettyIoProto {
       return value_.getByteString(index);
     }
 
+    public static final int TESTENUM_FIELD_NUMBER = 2;
+    private int testEnum_;
+    /**
+     * <code>.com.zqgame.netty.io.proto.NettyIoProto.TestEnum testEnum = 2;</code>
+     */
+    public int getTestEnumValue() {
+      return testEnum_;
+    }
+    /**
+     * <code>.com.zqgame.netty.io.proto.NettyIoProto.TestEnum testEnum = 2;</code>
+     */
+    public com.zqgame.netty.io.proto.NettyIoProto.TestEnum getTestEnum() {
+      com.zqgame.netty.io.proto.NettyIoProto.TestEnum result = com.zqgame.netty.io.proto.NettyIoProto.TestEnum.valueOf(testEnum_);
+      return result == null ? com.zqgame.netty.io.proto.NettyIoProto.TestEnum.UNRECOGNIZED : result;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -1553,6 +2028,9 @@ public final class NettyIoProto {
                         throws java.io.IOException {
       for (int i = 0; i < value_.size(); i++) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, value_.getRaw(i));
+      }
+      if (testEnum_ != com.zqgame.netty.io.proto.NettyIoProto.TestEnum.ONE.getNumber()) {
+        output.writeEnum(2, testEnum_);
       }
       unknownFields.writeTo(output);
     }
@@ -1569,6 +2047,10 @@ public final class NettyIoProto {
         }
         size += dataSize;
         size += 1 * getValueList().size();
+      }
+      if (testEnum_ != com.zqgame.netty.io.proto.NettyIoProto.TestEnum.ONE.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(2, testEnum_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1588,6 +2070,7 @@ public final class NettyIoProto {
       boolean result = true;
       result = result && getValueList()
           .equals(other.getValueList());
+      result = result && testEnum_ == other.testEnum_;
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -1603,6 +2086,8 @@ public final class NettyIoProto {
         hash = (37 * hash) + VALUE_FIELD_NUMBER;
         hash = (53 * hash) + getValueList().hashCode();
       }
+      hash = (37 * hash) + TESTENUM_FIELD_NUMBER;
+      hash = (53 * hash) + testEnum_;
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1734,6 +2219,8 @@ public final class NettyIoProto {
         super.clear();
         value_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000001);
+        testEnum_ = 0;
+
         return this;
       }
 
@@ -1757,11 +2244,14 @@ public final class NettyIoProto {
       public com.zqgame.netty.io.proto.NettyIoProto.Test buildPartial() {
         com.zqgame.netty.io.proto.NettyIoProto.Test result = new com.zqgame.netty.io.proto.NettyIoProto.Test(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         if (((bitField0_ & 0x00000001) == 0x00000001)) {
           value_ = value_.getUnmodifiableView();
           bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.value_ = value_;
+        result.testEnum_ = testEnum_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -1812,6 +2302,9 @@ public final class NettyIoProto {
             value_.addAll(other.value_);
           }
           onChanged();
+        }
+        if (other.testEnum_ != 0) {
+          setTestEnumValue(other.getTestEnumValue());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1934,6 +2427,50 @@ public final class NettyIoProto {
         onChanged();
         return this;
       }
+
+      private int testEnum_ = 0;
+      /**
+       * <code>.com.zqgame.netty.io.proto.NettyIoProto.TestEnum testEnum = 2;</code>
+       */
+      public int getTestEnumValue() {
+        return testEnum_;
+      }
+      /**
+       * <code>.com.zqgame.netty.io.proto.NettyIoProto.TestEnum testEnum = 2;</code>
+       */
+      public Builder setTestEnumValue(int value) {
+        testEnum_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.com.zqgame.netty.io.proto.NettyIoProto.TestEnum testEnum = 2;</code>
+       */
+      public com.zqgame.netty.io.proto.NettyIoProto.TestEnum getTestEnum() {
+        com.zqgame.netty.io.proto.NettyIoProto.TestEnum result = com.zqgame.netty.io.proto.NettyIoProto.TestEnum.valueOf(testEnum_);
+        return result == null ? com.zqgame.netty.io.proto.NettyIoProto.TestEnum.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.com.zqgame.netty.io.proto.NettyIoProto.TestEnum testEnum = 2;</code>
+       */
+      public Builder setTestEnum(com.zqgame.netty.io.proto.NettyIoProto.TestEnum value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        testEnum_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.com.zqgame.netty.io.proto.NettyIoProto.TestEnum testEnum = 2;</code>
+       */
+      public Builder clearTestEnum() {
+        
+        testEnum_ = 0;
+        onChanged();
+        return this;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFieldsProto3(unknownFields);
@@ -2008,12 +2545,16 @@ public final class NettyIoProto {
   static {
     java.lang.String[] descriptorData = {
       "\n\024netty_io_proto.proto\022&com.zqgame.netty" +
-      ".io.proto.NettyIoProto\"\'\n\004Head\022\r\n\005proto\030" +
-      "\001 \001(\t\022\020\n\010toMethod\030\002 \001(\t\"R\n\004Base\022<\n\006heade" +
-      "r\030\001 \001(\0132,.com.zqgame.netty.io.proto.Nett" +
-      "yIoProto.Head\022\014\n\004body\030\002 \001(\014\"\025\n\004Test\022\r\n\005v" +
-      "alue\030\001 \003(\tB)\n\031com.zqgame.netty.io.protoB" +
-      "\014NettyIoProtob\006proto3"
+      ".io.proto.NettyIoProto\"\025\n\004Head\022\r\n\005proto\030" +
+      "\001 \001(\t\"\216\001\n\004Base\022<\n\006header\030\001 \001(\0132,.com.zqg" +
+      "ame.netty.io.proto.NettyIoProto.Head\022\014\n\004" +
+      "body\030\002 \001(\014\022\022\n\nstatusCode\030\003 \001(\t\022\021\n\terrorC" +
+      "ode\030\004 \001(\005\022\023\n\013description\030\005 \001(\t\"Y\n\004Test\022\r" +
+      "\n\005value\030\001 \003(\t\022B\n\010testEnum\030\002 \001(\01620.com.zq" +
+      "game.netty.io.proto.NettyIoProto.TestEnu" +
+      "m*\034\n\010TestEnum\022\007\n\003ONE\020\000\022\007\n\003TOW\020\001B)\n\031com.z" +
+      "qgame.netty.io.protoB\014NettyIoProtob\006prot" +
+      "o3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2032,19 +2573,19 @@ public final class NettyIoProto {
     internal_static_com_zqgame_netty_io_proto_NettyIoProto_Head_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_zqgame_netty_io_proto_NettyIoProto_Head_descriptor,
-        new java.lang.String[] { "Proto", "ToMethod", });
+        new java.lang.String[] { "Proto", });
     internal_static_com_zqgame_netty_io_proto_NettyIoProto_Base_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_com_zqgame_netty_io_proto_NettyIoProto_Base_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_zqgame_netty_io_proto_NettyIoProto_Base_descriptor,
-        new java.lang.String[] { "Header", "Body", });
+        new java.lang.String[] { "Header", "Body", "StatusCode", "ErrorCode", "Description", });
     internal_static_com_zqgame_netty_io_proto_NettyIoProto_Test_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_com_zqgame_netty_io_proto_NettyIoProto_Test_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_zqgame_netty_io_proto_NettyIoProto_Test_descriptor,
-        new java.lang.String[] { "Value", });
+        new java.lang.String[] { "Value", "TestEnum", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

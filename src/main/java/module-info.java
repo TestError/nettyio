@@ -11,6 +11,8 @@ module com.zqgame.netty.io {
 	requires slf4j.api;
 //	requires log4j;
 //	requires junit;
-
+	exports com.zqgame.netty.io.handle;
+	exports com.zqgame.netty.io.proto;
+	exports com.zqgame.netty.io.utils;
 
 }
