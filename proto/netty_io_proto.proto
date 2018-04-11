@@ -40,4 +40,5 @@ message Test
     repeated Head header = 3;
     int32 item = 4;
     bytes code = 5;
+    uint32 uintValue = 6;
 }

@@ -1911,6 +1911,11 @@ public final class NettyIoProto {
      * <code>bytes code = 5;</code>
      */
     com.google.protobuf.ByteString getCode();
+
+    /**
+     * <code>uint32 uintValue = 6;</code>
+     */
+    int getUintValue();
   }
   /**
    * Protobuf type {@code com.zqgame.netty.io.proto.NettyIoProto.Test}
@@ -1930,6 +1935,7 @@ public final class NettyIoProto {
       header_ = java.util.Collections.emptyList();
       item_ = 0;
       code_ = com.google.protobuf.ByteString.EMPTY;
+      uintValue_ = 0;
     }
 
     @java.lang.Override
@@ -1995,6 +2001,11 @@ public final class NettyIoProto {
             case 42: {
 
               code_ = input.readBytes();
+              break;
+            }
+            case 48: {
+
+              uintValue_ = input.readUInt32();
               break;
             }
           }
@@ -2126,6 +2137,15 @@ public final class NettyIoProto {
       return code_;
     }
 
+    public static final int UINTVALUE_FIELD_NUMBER = 6;
+    private int uintValue_;
+    /**
+     * <code>uint32 uintValue = 6;</code>
+     */
+    public int getUintValue() {
+      return uintValue_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -2152,6 +2172,9 @@ public final class NettyIoProto {
       }
       if (!code_.isEmpty()) {
         output.writeBytes(5, code_);
+      }
+      if (uintValue_ != 0) {
+        output.writeUInt32(6, uintValue_);
       }
       unknownFields.writeTo(output);
     }
@@ -2185,6 +2208,10 @@ public final class NettyIoProto {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(5, code_);
       }
+      if (uintValue_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(6, uintValue_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -2210,6 +2237,8 @@ public final class NettyIoProto {
           == other.getItem());
       result = result && getCode()
           .equals(other.getCode());
+      result = result && (getUintValue()
+          == other.getUintValue());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -2235,6 +2264,8 @@ public final class NettyIoProto {
       hash = (53 * hash) + getItem();
       hash = (37 * hash) + CODE_FIELD_NUMBER;
       hash = (53 * hash) + getCode().hashCode();
+      hash = (37 * hash) + UINTVALUE_FIELD_NUMBER;
+      hash = (53 * hash) + getUintValue();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2379,6 +2410,8 @@ public final class NettyIoProto {
 
         code_ = com.google.protobuf.ByteString.EMPTY;
 
+        uintValue_ = 0;
+
         return this;
       }
 
@@ -2420,6 +2453,7 @@ public final class NettyIoProto {
         }
         result.item_ = item_;
         result.code_ = code_;
+        result.uintValue_ = uintValue_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2506,6 +2540,9 @@ public final class NettyIoProto {
         }
         if (other.getCode() != com.google.protobuf.ByteString.EMPTY) {
           setCode(other.getCode());
+        }
+        if (other.getUintValue() != 0) {
+          setUintValue(other.getUintValue());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -2967,6 +3004,32 @@ public final class NettyIoProto {
         onChanged();
         return this;
       }
+
+      private int uintValue_ ;
+      /**
+       * <code>uint32 uintValue = 6;</code>
+       */
+      public int getUintValue() {
+        return uintValue_;
+      }
+      /**
+       * <code>uint32 uintValue = 6;</code>
+       */
+      public Builder setUintValue(int value) {
+        
+        uintValue_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint32 uintValue = 6;</code>
+       */
+      public Builder clearUintValue() {
+        
+        uintValue_ = 0;
+        onChanged();
+        return this;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFieldsProto3(unknownFields);
@@ -3045,14 +3108,14 @@ public final class NettyIoProto {
       "\001 \001(\t\"\216\001\n\004Base\022<\n\006header\030\001 \001(\0132,.com.zqg" +
       "ame.netty.io.proto.NettyIoProto.Head\022\014\n\004" +
       "body\030\002 \001(\014\022\022\n\nstatusCode\030\003 \001(\t\022\021\n\terrorC" +
-      "ode\030\004 \001(\005\022\023\n\013description\030\005 \001(\t\"\263\001\n\004Test\022" +
+      "ode\030\004 \001(\005\022\023\n\013description\030\005 \001(\t\"\306\001\n\004Test\022" +
       "\r\n\005value\030\001 \003(\t\022B\n\010testEnum\030\002 \001(\01620.com.z" +
       "qgame.netty.io.proto.NettyIoProto.TestEn" +
       "um\022<\n\006header\030\003 \003(\0132,.com.zqgame.netty.io" +
       ".proto.NettyIoProto.Head\022\014\n\004item\030\004 \001(\005\022\014" +
-      "\n\004code\030\005 \001(\014*\034\n\010TestEnum\022\007\n\003ONE\020\000\022\007\n\003TOW" +
-      "\020\001B)\n\031com.zqgame.netty.io.protoB\014NettyIo" +
-      "Protob\006proto3"
+      "\n\004code\030\005 \001(\014\022\021\n\tuintValue\030\006 \001(\r*\034\n\010TestE" +
+      "num\022\007\n\003ONE\020\000\022\007\n\003TOW\020\001B)\n\031com.zqgame.nett" +
+      "y.io.protoB\014NettyIoProtob\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3083,7 +3146,7 @@ public final class NettyIoProto {
     internal_static_com_zqgame_netty_io_proto_NettyIoProto_Test_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_zqgame_netty_io_proto_NettyIoProto_Test_descriptor,
-        new java.lang.String[] { "Value", "TestEnum", "Header", "Item", "Code", });
+        new java.lang.String[] { "Value", "TestEnum", "Header", "Item", "Code", "UintValue", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
