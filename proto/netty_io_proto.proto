@@ -37,4 +37,7 @@ message Test
 {
     repeated string value = 1;
     TestEnum testEnum = 2;
+    Head hearer = 3;
+    int32 item = 4;
+    bytes code = 5;
 }

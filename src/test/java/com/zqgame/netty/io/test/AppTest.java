@@ -3,6 +3,7 @@ package com.zqgame.netty.io.test;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.Message;
 import com.zqgame.netty.io.proto.NettyIoProto;
+import com.zqgame.netty.io.utils.ProtoBufUtil;
 import javafx.beans.property.ReadOnlyFloatWrapper;
 import org.junit.Assert;
 import org.junit.Test;
@@ -10,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Flow;
@@ -33,6 +35,7 @@ public class AppTest {
 	 */
 	@Test
 	public void testApp() throws InterruptedException,ExecutionException {
+
 
 
 		logger.debug("test");
@@ -59,20 +62,34 @@ public class AppTest {
 //
 //
 //		} );
+//		NettyIoProto.Test.newBuilder().setRepeatedField(  )\
 
-		Message message = NettyIoProto.Test.newBuilder().setTestEnumValue( 0 ).build();
+		NettyIoProto.Test test = NettyIoProto.Test.newBuilder().addValue( "1231" ).addValue( "12312" ).setItem( 123123131 ).setCode( ByteString.copyFromUtf8( "23131121" ) ).setHearer( NettyIoProto.Head.newBuilder().setProto( "12312" ).build() ).setTestEnumValue( 1 ).build();
 
-		message.getDescriptorForType().getFields().forEach( fieldDescriptor -> {
-			logger.debug( fieldDescriptor.getName() );
+		//logger.debug( "array:{}",test.getField( NettyIoProto.Test.getDescriptor().findFieldByName( "value" ) ).getClass().getName() );
 
-			logger.debug( fieldDescriptor.getFullName() );
+		Map object = ProtoBufUtil.proto2Map( test );
+		logger.debug( object.toString() );
 
-			logger.debug( fieldDescriptor.getLiteType().toString());
+//		NettyIoProto.Test.getDescriptor()
+			Message obj =  ProtoBufUtil.map2Proto( NettyIoProto.Test.class,object );
+			logger.debug( obj.toString() );
 
-			if(fieldDescriptor.getLiteType().toString().equals( "MESSAGE" )) {
-				logger.debug( "out:{}", fieldDescriptor.getMessageType().toProto() );
-			}
-		} );
+
+//
+//		Message message = NettyIoProto.Test.newBuilder().setTestEnumValue( 0 ).build();
+//
+//		message.getDescriptorForType().getFields().forEach( fieldDescriptor -> {
+//			logger.debug( fieldDescriptor.getName() );
+//
+//			logger.debug( fieldDescriptor.getFullName() );
+//
+//			logger.debug( fieldDescriptor.getLiteType().toString());
+//
+//			if(fieldDescriptor.getLiteType().toString().equals( "MESSAGE" )) {
+//				logger.debug( "out:{}", fieldDescriptor.getMessageType().toProto() );
+//			}
+//		} );
 
 //		NettyIoProto.Test.getDefaultInstance().getAllFields().forEach( (fieldDescriptor, o) -> {
 //

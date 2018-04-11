@@ -8,6 +8,9 @@ import com.zqgame.netty.io.exceptions.BusinessException;
 import com.zqgame.netty.io.exceptions.enums.ExceptionEnum;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.AbstractList;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -20,89 +23,117 @@ public class ProtoBufUtil {
 
 	/**
 	 * 将一个Map转换为Proto对象
+	 *
 	 * @param protoClassName
 	 * @param message
 	 * @return
 	 */
-	public static Message map2Proto(String protoClassName, Map<String,Object> message) throws ClassNotFoundException{
+	public static Message map2Proto(String protoClassName, Map <String, Object> message) throws ClassNotFoundException {
 
 		Class protoClass = Class.forName( protoClassName );
-		return map2Proto( protoClass,message );
+		return map2Proto( protoClass, message );
 
 	}
 
 	/**
 	 * 将一个Map转换为Proto对象
+	 *
 	 * @param protoClass
 	 * @param message
 	 * @return
 	 */
-	public static Message map2Proto(Class protoClass, Map<String,Object> message){
+	public static Message map2Proto(Class protoClass, Map <String, Object> message) {
 
 		Descriptor descriptor = getDescriptor( protoClass );
 		var builder = descriptor.toProto().newBuilderForType();
 		descriptor.getFields().forEach( fieldDescriptor -> {
-			if(message.containsKey(fieldDescriptor.getName())){
-				builder.setField( fieldDescriptor,java2ProtoClass( fieldDescriptor,message.get(fieldDescriptor.getName()) ) );
+			if (message.containsKey( fieldDescriptor.getName() )) {
+
+				//为一组数据时
+				if (fieldDescriptor.isRepeated()) {
+					Iterable iterable = (Iterable) message.get( fieldDescriptor.getName() );
+
+					iterable.forEach( o -> {
+
+						builder.addRepeatedField( fieldDescriptor,o );
+
+					} );
+
+				//	builder.addRepeatedField(fieldDescriptor,iterable  );
+//					int index = 0;
+
+//					for(var i : iterable){
+//						builder.setRepeatedField(fieldDescriptor.getContainingType().,index,i );
+//					}
+
+				} else {
+					//为单个数据时
+					builder.setField( fieldDescriptor, java2ProtoClass( fieldDescriptor, message.get( fieldDescriptor.getName() ) ) );
+				}
 			}
-		});
+		} );
 		return builder.build();
 	}
 
-	public static Object java2ProtoClass(Descriptors.FieldDescriptor fieldDescriptor, Object data){
+	public static Object java2ProtoClass(Descriptors.FieldDescriptor fieldDescriptor, Object data) {
 
-			switch (fieldDescriptor.getLiteType()){
-				case MESSAGE:
-					var mapData = (Map<String,Object>)data;
-					data = map2Proto( fieldDescriptor.toProto().getClass(),mapData );
-					break;
-				case BOOL:
-					break;
-				case ENUM:
-					break;
-				case BYTES:
-					if (data instanceof byte[]){
-						byte[] dataByteArray = (byte[]) data;
-						data = ByteString.copyFrom( dataByteArray );
-					}
-					break;
-				case FLOAT:
-					break;
-				case GROUP:
-					var datai = (Iterable)data;
-					//TODO 看一下group是什么东西 应该怎么转换
-					datai.forEach( o -> {
+		switch (fieldDescriptor.getJavaType()) {
+			case STRING:
+				break;
+			case DOUBLE:
+				break;
+			case FLOAT:
+				break;
+			case ENUM:
+				break;
+			case MESSAGE:
+				Map <String, Object> mapData = (Map <String, Object>) data;
+				data = map2Proto( fieldDescriptor.toProto().getClass(), mapData );
+				break;
+			case INT:
+				break;
+			case LONG:
+				break;
+			case BOOLEAN:
+				break;
+			case BYTE_STRING:
+				if (data instanceof byte[]) {
+					data = ByteString.copyFrom( (byte[]) data );
+				}
+				break;
+		}
 
-					} );
-					break;
-				case INT32:
-					break;
-				case INT64:
-					break;
-				case DOUBLE:
-					break;
-				case SINT32:
-					break;
-				case SINT64:
-					break;
-				case STRING:
-					break;
-				case UINT32:
-					break;
-				case UINT64:
-					break;
-				case FIXED32:
-					break;
-				case FIXED64:
-					break;
-				case SFIXED32:
-					break;
-				case SFIXED64:
-					break;
-				default:
-					break;
-			}
+		return data;
 
+	}
+
+	public static Object protoClass2Java(Descriptors.FieldDescriptor fieldDescriptor, Object data) {
+
+		switch (fieldDescriptor.getJavaType()) {
+			case STRING:
+				break;
+			case DOUBLE:
+				break;
+			case FLOAT:
+				break;
+			case ENUM:
+				break;
+			case MESSAGE:
+				Message messageData = (Message)data;
+				data = proto2Map(messageData);
+				break;
+			case INT:
+				break;
+			case LONG:
+				break;
+			case BOOLEAN:
+				break;
+			case BYTE_STRING:
+				if (data instanceof ByteString) {
+					data = ((ByteString)data).toByteArray();
+				}
+				break;
+		}
 
 		return data;
 
@@ -110,12 +141,13 @@ public class ProtoBufUtil {
 
 	/**
 	 * 获取描述器
+	 *
 	 * @param protoClass
 	 * @return
 	 */
-	private static Descriptor getDescriptor(Class protoClass){
+	private static Descriptor getDescriptor(Class protoClass) {
 		try {
-			return (Descriptor)protoClass.getMethod( "getDescriptorForType" ).invoke( protoClass );
+			return (Descriptor) protoClass.getMethod( "getDescriptor" ).invoke( protoClass );
 		} catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
 			throw new BusinessException( ExceptionEnum.SERVER_ERROR, "解析数据错误", e );
 		}
@@ -123,15 +155,25 @@ public class ProtoBufUtil {
 
 	/**
 	 * 将proto对象转换为Map
+	 *
 	 * @param message
 	 * @return
 	 */
-	public static Map<String,Object> proto2Map(Message message){
+	public static Map <String, Object> proto2Map(Message message) {
 
+		Map <String, Object> resultMap = new HashMap <String, Object>();
 
+		message.getAllFields().forEach( (fieldDescriptor, o) -> {
 
-		return null;
-
+			if (fieldDescriptor.isRepeated()) {
+				AbstractList list = (AbstractList) o;
+				ArrayList arrayList = new ArrayList( list );
+				resultMap.put( fieldDescriptor.getName(), arrayList );
+			} else {
+				resultMap.put( fieldDescriptor.getName(),protoClass2Java( fieldDescriptor,o ) );
+			}
+		} );
+		return resultMap;
 	}
 
 

@@ -55,6 +55,9 @@ public class BaseServerMap2ProtoEncode extends MessageToMessageEncoder <Map <Str
 			Map <String, Object> mapObject = (Map <String, Object>) msg.get( Constant.MESSAGE );
 
 			try {
+
+
+
 				Message protoObject = ProtoBufUtil.map2Proto( proto, mapObject );
 				outputObject.put( Constant.MESSAGE, protoObject );
 			} catch (ClassNotFoundException e) {
@@ -68,13 +71,6 @@ public class BaseServerMap2ProtoEncode extends MessageToMessageEncoder <Map <Str
 		out.add( outputObject );
 
 	}
-
-	/**
-	 *
-	 * @param protoClass
-	 * @param message
-	 * @return
-	 */
 
 
 }

@@ -1877,6 +1877,29 @@ public final class NettyIoProto {
      * <code>.com.zqgame.netty.io.proto.NettyIoProto.TestEnum testEnum = 2;</code>
      */
     com.zqgame.netty.io.proto.NettyIoProto.TestEnum getTestEnum();
+
+    /**
+     * <code>.com.zqgame.netty.io.proto.NettyIoProto.Head hearer = 3;</code>
+     */
+    boolean hasHearer();
+    /**
+     * <code>.com.zqgame.netty.io.proto.NettyIoProto.Head hearer = 3;</code>
+     */
+    com.zqgame.netty.io.proto.NettyIoProto.Head getHearer();
+    /**
+     * <code>.com.zqgame.netty.io.proto.NettyIoProto.Head hearer = 3;</code>
+     */
+    com.zqgame.netty.io.proto.NettyIoProto.HeadOrBuilder getHearerOrBuilder();
+
+    /**
+     * <code>int32 item = 4;</code>
+     */
+    int getItem();
+
+    /**
+     * <code>bytes code = 5;</code>
+     */
+    com.google.protobuf.ByteString getCode();
   }
   /**
    * Protobuf type {@code com.zqgame.netty.io.proto.NettyIoProto.Test}
@@ -1893,6 +1916,8 @@ public final class NettyIoProto {
     private Test() {
       value_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       testEnum_ = 0;
+      item_ = 0;
+      code_ = com.google.protobuf.ByteString.EMPTY;
     }
 
     @java.lang.Override
@@ -1939,6 +1964,29 @@ public final class NettyIoProto {
               int rawValue = input.readEnum();
 
               testEnum_ = rawValue;
+              break;
+            }
+            case 26: {
+              com.zqgame.netty.io.proto.NettyIoProto.Head.Builder subBuilder = null;
+              if (hearer_ != null) {
+                subBuilder = hearer_.toBuilder();
+              }
+              hearer_ = input.readMessage(com.zqgame.netty.io.proto.NettyIoProto.Head.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(hearer_);
+                hearer_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 32: {
+
+              item_ = input.readInt32();
+              break;
+            }
+            case 42: {
+
+              code_ = input.readBytes();
               break;
             }
           }
@@ -2014,6 +2062,45 @@ public final class NettyIoProto {
       return result == null ? com.zqgame.netty.io.proto.NettyIoProto.TestEnum.UNRECOGNIZED : result;
     }
 
+    public static final int HEARER_FIELD_NUMBER = 3;
+    private com.zqgame.netty.io.proto.NettyIoProto.Head hearer_;
+    /**
+     * <code>.com.zqgame.netty.io.proto.NettyIoProto.Head hearer = 3;</code>
+     */
+    public boolean hasHearer() {
+      return hearer_ != null;
+    }
+    /**
+     * <code>.com.zqgame.netty.io.proto.NettyIoProto.Head hearer = 3;</code>
+     */
+    public com.zqgame.netty.io.proto.NettyIoProto.Head getHearer() {
+      return hearer_ == null ? com.zqgame.netty.io.proto.NettyIoProto.Head.getDefaultInstance() : hearer_;
+    }
+    /**
+     * <code>.com.zqgame.netty.io.proto.NettyIoProto.Head hearer = 3;</code>
+     */
+    public com.zqgame.netty.io.proto.NettyIoProto.HeadOrBuilder getHearerOrBuilder() {
+      return getHearer();
+    }
+
+    public static final int ITEM_FIELD_NUMBER = 4;
+    private int item_;
+    /**
+     * <code>int32 item = 4;</code>
+     */
+    public int getItem() {
+      return item_;
+    }
+
+    public static final int CODE_FIELD_NUMBER = 5;
+    private com.google.protobuf.ByteString code_;
+    /**
+     * <code>bytes code = 5;</code>
+     */
+    public com.google.protobuf.ByteString getCode() {
+      return code_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -2031,6 +2118,15 @@ public final class NettyIoProto {
       }
       if (testEnum_ != com.zqgame.netty.io.proto.NettyIoProto.TestEnum.ONE.getNumber()) {
         output.writeEnum(2, testEnum_);
+      }
+      if (hearer_ != null) {
+        output.writeMessage(3, getHearer());
+      }
+      if (item_ != 0) {
+        output.writeInt32(4, item_);
+      }
+      if (!code_.isEmpty()) {
+        output.writeBytes(5, code_);
       }
       unknownFields.writeTo(output);
     }
@@ -2052,6 +2148,18 @@ public final class NettyIoProto {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(2, testEnum_);
       }
+      if (hearer_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getHearer());
+      }
+      if (item_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, item_);
+      }
+      if (!code_.isEmpty()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(5, code_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -2071,6 +2179,15 @@ public final class NettyIoProto {
       result = result && getValueList()
           .equals(other.getValueList());
       result = result && testEnum_ == other.testEnum_;
+      result = result && (hasHearer() == other.hasHearer());
+      if (hasHearer()) {
+        result = result && getHearer()
+            .equals(other.getHearer());
+      }
+      result = result && (getItem()
+          == other.getItem());
+      result = result && getCode()
+          .equals(other.getCode());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -2088,6 +2205,14 @@ public final class NettyIoProto {
       }
       hash = (37 * hash) + TESTENUM_FIELD_NUMBER;
       hash = (53 * hash) + testEnum_;
+      if (hasHearer()) {
+        hash = (37 * hash) + HEARER_FIELD_NUMBER;
+        hash = (53 * hash) + getHearer().hashCode();
+      }
+      hash = (37 * hash) + ITEM_FIELD_NUMBER;
+      hash = (53 * hash) + getItem();
+      hash = (37 * hash) + CODE_FIELD_NUMBER;
+      hash = (53 * hash) + getCode().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2221,6 +2346,16 @@ public final class NettyIoProto {
         bitField0_ = (bitField0_ & ~0x00000001);
         testEnum_ = 0;
 
+        if (hearerBuilder_ == null) {
+          hearer_ = null;
+        } else {
+          hearer_ = null;
+          hearerBuilder_ = null;
+        }
+        item_ = 0;
+
+        code_ = com.google.protobuf.ByteString.EMPTY;
+
         return this;
       }
 
@@ -2251,6 +2386,13 @@ public final class NettyIoProto {
         }
         result.value_ = value_;
         result.testEnum_ = testEnum_;
+        if (hearerBuilder_ == null) {
+          result.hearer_ = hearer_;
+        } else {
+          result.hearer_ = hearerBuilder_.build();
+        }
+        result.item_ = item_;
+        result.code_ = code_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2305,6 +2447,15 @@ public final class NettyIoProto {
         }
         if (other.testEnum_ != 0) {
           setTestEnumValue(other.getTestEnumValue());
+        }
+        if (other.hasHearer()) {
+          mergeHearer(other.getHearer());
+        }
+        if (other.getItem() != 0) {
+          setItem(other.getItem());
+        }
+        if (other.getCode() != com.google.protobuf.ByteString.EMPTY) {
+          setCode(other.getCode());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -2471,6 +2622,178 @@ public final class NettyIoProto {
         onChanged();
         return this;
       }
+
+      private com.zqgame.netty.io.proto.NettyIoProto.Head hearer_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.zqgame.netty.io.proto.NettyIoProto.Head, com.zqgame.netty.io.proto.NettyIoProto.Head.Builder, com.zqgame.netty.io.proto.NettyIoProto.HeadOrBuilder> hearerBuilder_;
+      /**
+       * <code>.com.zqgame.netty.io.proto.NettyIoProto.Head hearer = 3;</code>
+       */
+      public boolean hasHearer() {
+        return hearerBuilder_ != null || hearer_ != null;
+      }
+      /**
+       * <code>.com.zqgame.netty.io.proto.NettyIoProto.Head hearer = 3;</code>
+       */
+      public com.zqgame.netty.io.proto.NettyIoProto.Head getHearer() {
+        if (hearerBuilder_ == null) {
+          return hearer_ == null ? com.zqgame.netty.io.proto.NettyIoProto.Head.getDefaultInstance() : hearer_;
+        } else {
+          return hearerBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.com.zqgame.netty.io.proto.NettyIoProto.Head hearer = 3;</code>
+       */
+      public Builder setHearer(com.zqgame.netty.io.proto.NettyIoProto.Head value) {
+        if (hearerBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          hearer_ = value;
+          onChanged();
+        } else {
+          hearerBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.com.zqgame.netty.io.proto.NettyIoProto.Head hearer = 3;</code>
+       */
+      public Builder setHearer(
+          com.zqgame.netty.io.proto.NettyIoProto.Head.Builder builderForValue) {
+        if (hearerBuilder_ == null) {
+          hearer_ = builderForValue.build();
+          onChanged();
+        } else {
+          hearerBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.com.zqgame.netty.io.proto.NettyIoProto.Head hearer = 3;</code>
+       */
+      public Builder mergeHearer(com.zqgame.netty.io.proto.NettyIoProto.Head value) {
+        if (hearerBuilder_ == null) {
+          if (hearer_ != null) {
+            hearer_ =
+              com.zqgame.netty.io.proto.NettyIoProto.Head.newBuilder(hearer_).mergeFrom(value).buildPartial();
+          } else {
+            hearer_ = value;
+          }
+          onChanged();
+        } else {
+          hearerBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.com.zqgame.netty.io.proto.NettyIoProto.Head hearer = 3;</code>
+       */
+      public Builder clearHearer() {
+        if (hearerBuilder_ == null) {
+          hearer_ = null;
+          onChanged();
+        } else {
+          hearer_ = null;
+          hearerBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.com.zqgame.netty.io.proto.NettyIoProto.Head hearer = 3;</code>
+       */
+      public com.zqgame.netty.io.proto.NettyIoProto.Head.Builder getHearerBuilder() {
+        
+        onChanged();
+        return getHearerFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.com.zqgame.netty.io.proto.NettyIoProto.Head hearer = 3;</code>
+       */
+      public com.zqgame.netty.io.proto.NettyIoProto.HeadOrBuilder getHearerOrBuilder() {
+        if (hearerBuilder_ != null) {
+          return hearerBuilder_.getMessageOrBuilder();
+        } else {
+          return hearer_ == null ?
+              com.zqgame.netty.io.proto.NettyIoProto.Head.getDefaultInstance() : hearer_;
+        }
+      }
+      /**
+       * <code>.com.zqgame.netty.io.proto.NettyIoProto.Head hearer = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.zqgame.netty.io.proto.NettyIoProto.Head, com.zqgame.netty.io.proto.NettyIoProto.Head.Builder, com.zqgame.netty.io.proto.NettyIoProto.HeadOrBuilder> 
+          getHearerFieldBuilder() {
+        if (hearerBuilder_ == null) {
+          hearerBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.zqgame.netty.io.proto.NettyIoProto.Head, com.zqgame.netty.io.proto.NettyIoProto.Head.Builder, com.zqgame.netty.io.proto.NettyIoProto.HeadOrBuilder>(
+                  getHearer(),
+                  getParentForChildren(),
+                  isClean());
+          hearer_ = null;
+        }
+        return hearerBuilder_;
+      }
+
+      private int item_ ;
+      /**
+       * <code>int32 item = 4;</code>
+       */
+      public int getItem() {
+        return item_;
+      }
+      /**
+       * <code>int32 item = 4;</code>
+       */
+      public Builder setItem(int value) {
+        
+        item_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 item = 4;</code>
+       */
+      public Builder clearItem() {
+        
+        item_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString code_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>bytes code = 5;</code>
+       */
+      public com.google.protobuf.ByteString getCode() {
+        return code_;
+      }
+      /**
+       * <code>bytes code = 5;</code>
+       */
+      public Builder setCode(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        code_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bytes code = 5;</code>
+       */
+      public Builder clearCode() {
+        
+        code_ = getDefaultInstance().getCode();
+        onChanged();
+        return this;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFieldsProto3(unknownFields);
@@ -2549,12 +2872,14 @@ public final class NettyIoProto {
       "\001 \001(\t\"\216\001\n\004Base\022<\n\006header\030\001 \001(\0132,.com.zqg" +
       "ame.netty.io.proto.NettyIoProto.Head\022\014\n\004" +
       "body\030\002 \001(\014\022\022\n\nstatusCode\030\003 \001(\t\022\021\n\terrorC" +
-      "ode\030\004 \001(\005\022\023\n\013description\030\005 \001(\t\"Y\n\004Test\022\r" +
-      "\n\005value\030\001 \003(\t\022B\n\010testEnum\030\002 \001(\01620.com.zq" +
-      "game.netty.io.proto.NettyIoProto.TestEnu" +
-      "m*\034\n\010TestEnum\022\007\n\003ONE\020\000\022\007\n\003TOW\020\001B)\n\031com.z" +
-      "qgame.netty.io.protoB\014NettyIoProtob\006prot" +
-      "o3"
+      "ode\030\004 \001(\005\022\023\n\013description\030\005 \001(\t\"\263\001\n\004Test\022" +
+      "\r\n\005value\030\001 \003(\t\022B\n\010testEnum\030\002 \001(\01620.com.z" +
+      "qgame.netty.io.proto.NettyIoProto.TestEn" +
+      "um\022<\n\006hearer\030\003 \001(\0132,.com.zqgame.netty.io" +
+      ".proto.NettyIoProto.Head\022\014\n\004item\030\004 \001(\005\022\014" +
+      "\n\004code\030\005 \001(\014*\034\n\010TestEnum\022\007\n\003ONE\020\000\022\007\n\003TOW" +
+      "\020\001B)\n\031com.zqgame.netty.io.protoB\014NettyIo" +
+      "Protob\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2585,7 +2910,7 @@ public final class NettyIoProto {
     internal_static_com_zqgame_netty_io_proto_NettyIoProto_Test_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_zqgame_netty_io_proto_NettyIoProto_Test_descriptor,
-        new java.lang.String[] { "Value", "TestEnum", });
+        new java.lang.String[] { "Value", "TestEnum", "Hearer", "Item", "Code", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
