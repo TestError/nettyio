@@ -23,9 +23,7 @@ import java.util.concurrent.Flow;
  */
 public class AppTest {
 
-	private static Logger logger = LoggerFactory.getLogger(AppTest.class);
-
-
+	private static Logger logger = LoggerFactory.getLogger( AppTest.class );
 
 
 	/**
@@ -34,12 +32,10 @@ public class AppTest {
 	 * @create 2018/3/14 13:29
 	 */
 	@Test
-	public void testApp() throws InterruptedException,ExecutionException {
+	public void testApp() throws InterruptedException, ExecutionException {
 
 
-
-		logger.debug("test");
-
+		logger.debug( "test" );
 
 
 //		NettyIoProto.Base base = NettyIoProto.Base.newBuilder().setBody( ByteString.copyFromUtf8( "我草您吗" ) ).setHeader( NettyIoProto.Head.newBuilder().setProto( "12313" ).build() ).build();
@@ -64,7 +60,7 @@ public class AppTest {
 //		} );
 //		NettyIoProto.Test.newBuilder().setRepeatedField(  )\
 
-		NettyIoProto.Test test = NettyIoProto.Test.newBuilder().addValue( "1231" ).addValue( "12312" ).setItem( 123123131 ).setCode( ByteString.copyFromUtf8( "23131121" ) ).setHearer( NettyIoProto.Head.newBuilder().setProto( "12312" ).build() ).setTestEnumValue( 1 ).build();
+		NettyIoProto.Test test = NettyIoProto.Test.newBuilder().addValue( "1231" ).addValue( "12312" ).setItem( 123123131 ).setCode( ByteString.copyFromUtf8( "23131121" ) ).addHeader( NettyIoProto.Head.newBuilder().setProto( "12312" ).build() ).addHeader( NettyIoProto.Head.newBuilder().setProto( "12322212" ).build()).setTestEnumValue( 1 ).build();
 
 		//logger.debug( "array:{}",test.getField( NettyIoProto.Test.getDescriptor().findFieldByName( "value" ) ).getClass().getName() );
 
@@ -72,8 +68,8 @@ public class AppTest {
 		logger.debug( object.toString() );
 
 //		NettyIoProto.Test.getDescriptor()
-			Message obj =  ProtoBufUtil.map2Proto( NettyIoProto.Test.class,object );
-			logger.debug( obj.toString() );
+		Message obj = ProtoBufUtil.map2Proto( NettyIoProto.Test.class, object );
+		logger.debug( "输出:{{}}", obj );
 
 
 //
@@ -103,7 +99,6 @@ public class AppTest {
 //				logger.debug( "out:{}", fieldDescriptor.getMessageType().toProto() );
 //			}
 //		} );
-
 
 
 //		assert true;

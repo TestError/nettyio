@@ -54,17 +54,8 @@ public class BaseServerMap2ProtoEncode extends MessageToMessageEncoder <Map <Str
 
 			Map <String, Object> mapObject = (Map <String, Object>) msg.get( Constant.MESSAGE );
 
-			try {
-
-
-
-				Message protoObject = ProtoBufUtil.map2Proto( proto, mapObject );
-				outputObject.put( Constant.MESSAGE, protoObject );
-			} catch (ClassNotFoundException e) {
-				logger.error( "找不到相应协议", e );
-				ctx.fireExceptionCaught( new BusinessException( ExceptionEnum.SERVER_ERROR, "找不到相应协议对应的类", e ) );
-				return;
-			}
+			Message protoObject = ProtoBufUtil.map2Proto( proto, mapObject );
+			outputObject.put( Constant.MESSAGE, protoObject );
 
 		}
 

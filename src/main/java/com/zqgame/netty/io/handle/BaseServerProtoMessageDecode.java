@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.regex.Matcher;
 
 /**
  * @description
@@ -41,7 +41,7 @@ public class BaseServerProtoMessageDecode extends MessageToMessageDecoder <Netty
 		//这里根据head里面的协议名去拿到对应的协议类型
 		Class protoClass;
 		try {
-			protoClass = Class.forName( proto );
+			protoClass = Class.forName( proto.replaceAll(  "\\.(?=((?!\\.).)*$)", Matcher.quoteReplacement( "$" )  ) );
 		} catch (ClassNotFoundException e) {
 			logger.error( "找不到相应协议", e );
 			ctx.fireExceptionCaught( new BusinessException( ExceptionEnum.SERVER_ERROR, "找不到相应协议对应的类", e ) );
@@ -62,14 +62,12 @@ public class BaseServerProtoMessageDecode extends MessageToMessageDecoder <Netty
 			try {
 				message = (Message) protoClass.getMethod( "parseFrom", byte[].class ).invoke( protoClass, body );
 			} catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-				logger.error( "解析数据错误", e );
-				ctx.fireExceptionCaught( new BusinessException( ExceptionEnum.SERVER_ERROR, "解析数据错误", e ) );
-				return;
-			}
-
+			logger.error( "解析数据错误", e );
+			ctx.fireExceptionCaught( new BusinessException( ExceptionEnum.SERVER_ERROR, "解析数据错误", e ) );
+			return;
+		}
 			outObject.put( Constant.MESSAGE, message );
 		}
-
 
 		out.add( outObject );
 	}

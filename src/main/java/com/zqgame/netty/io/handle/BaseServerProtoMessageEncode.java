@@ -31,7 +31,7 @@ public class BaseServerProtoMessageEncode extends MessageToMessageEncoder<Map<St
 
 			logger.error( "未带协议名" );
 			ctx.fireExceptionCaught( new BusinessException( ExceptionEnum.NULL_PROTO_NAME_ERROR ) );
-
+			return;
 		}
 
 		String proto = (String) msg.get( Constant.PROTO );

@@ -8,10 +8,8 @@ import com.zqgame.netty.io.exceptions.BusinessException;
 import com.zqgame.netty.io.exceptions.enums.ExceptionEnum;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.regex.Matcher;
 
 /**
  * @description 方便protobuf的对象和map对象进行转换的工具
@@ -20,6 +18,33 @@ import java.util.Map;
  */
 public class ProtoBufUtil {
 
+	/**
+	 * 将proto对象转换为Map
+	 *
+	 * @param message
+	 * @return
+	 */
+	public static Map <String, Object> proto2Map(Message message) {
+
+		Map <String, Object> resultMap = new HashMap <String, Object>();
+
+		message.getAllFields().forEach( (fieldDescriptor, o) -> {
+
+			if (fieldDescriptor.isRepeated()) {
+				Collection list = (Collection) o;
+				ArrayList arrayList = new ArrayList();
+
+				list.forEach( i ->{
+					arrayList.add(protoClass2Java( fieldDescriptor, i ));
+				});
+
+				resultMap.put( fieldDescriptor.getName(), arrayList );
+			} else {
+				resultMap.put( fieldDescriptor.getName(), protoClass2Java( fieldDescriptor, o ) );
+			}
+		} );
+		return resultMap;
+	}
 
 	/**
 	 * 将一个Map转换为Proto对象
@@ -28,9 +53,15 @@ public class ProtoBufUtil {
 	 * @param message
 	 * @return
 	 */
-	public static Message map2Proto(String protoClassName, Map <String, Object> message) throws ClassNotFoundException {
+	public static Message map2Proto(String protoClassName, Map <String, Object> message) {
 
-		Class protoClass = Class.forName( protoClassName );
+		protoClassName = protoClassName.replaceAll( "\\.(?=((?!\\.).)*$)", Matcher.quoteReplacement( "$" ) );
+		Class protoClass = null;
+		try {
+			protoClass = Class.forName( protoClassName );
+		} catch (ClassNotFoundException e) {
+			throw new BusinessException( ExceptionEnum.SERVER_ERROR, e );
+		}
 		return map2Proto( protoClass, message );
 
 	}
@@ -44,38 +75,47 @@ public class ProtoBufUtil {
 	 */
 	public static Message map2Proto(Class protoClass, Map <String, Object> message) {
 
-		Descriptor descriptor = getDescriptor( protoClass );
-		var builder = descriptor.toProto().newBuilderForType();
-		descriptor.getFields().forEach( fieldDescriptor -> {
-			if (message.containsKey( fieldDescriptor.getName() )) {
 
-				//为一组数据时
-				if (fieldDescriptor.isRepeated()) {
-					Iterable iterable = (Iterable) message.get( fieldDescriptor.getName() );
+		try {
+			Message.Builder builder = (Message.Builder) protoClass.getMethod( "newBuilder" ).invoke( protoClass );
 
-					iterable.forEach( o -> {
+			Descriptor descriptor = getDescriptor( protoClass );
 
-						builder.addRepeatedField( fieldDescriptor,o );
 
-					} );
+			descriptor.getFields().forEach( fieldDescriptor -> {
 
-				//	builder.addRepeatedField(fieldDescriptor,iterable  );
-//					int index = 0;
+				if (message.containsKey( fieldDescriptor.getName() )) {
+					builder.getField( fieldDescriptor );
 
-//					for(var i : iterable){
-//						builder.setRepeatedField(fieldDescriptor.getContainingType().,index,i );
-//					}
+					if (fieldDescriptor.isRepeated()) {
 
-				} else {
-					//为单个数据时
-					builder.setField( fieldDescriptor, java2ProtoClass( fieldDescriptor, message.get( fieldDescriptor.getName() ) ) );
+						((Iterable) message.get( fieldDescriptor.getName() )).forEach( o -> {
+
+							builder.addRepeatedField( fieldDescriptor, java2ProtoClass( fieldDescriptor, o ) );
+
+						} );
+
+					} else {
+						builder.setField( fieldDescriptor, java2ProtoClass( fieldDescriptor, message.get( fieldDescriptor.getName() ) ) );
+					}
 				}
-			}
-		} );
-		return builder.build();
+
+			} );
+
+			return builder.build();
+		} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+			throw new BusinessException( ExceptionEnum.SERVER_ERROR, e );
+		}
 	}
 
-	public static Object java2ProtoClass(Descriptors.FieldDescriptor fieldDescriptor, Object data) {
+	/**
+	 * 把java的类型转换为proto类型
+	 *
+	 * @param fieldDescriptor
+	 * @param data
+	 * @return
+	 */
+	private static Object java2ProtoClass(Descriptors.FieldDescriptor fieldDescriptor, Object data) {
 
 		switch (fieldDescriptor.getJavaType()) {
 			case STRING:
@@ -88,7 +128,8 @@ public class ProtoBufUtil {
 				break;
 			case MESSAGE:
 				Map <String, Object> mapData = (Map <String, Object>) data;
-				data = map2Proto( fieldDescriptor.toProto().getClass(), mapData );
+				var messageName = fieldDescriptor.getMessageType().getFullName();
+				data = map2Proto( messageName, mapData );
 				break;
 			case INT:
 				break;
@@ -107,7 +148,14 @@ public class ProtoBufUtil {
 
 	}
 
-	public static Object protoClass2Java(Descriptors.FieldDescriptor fieldDescriptor, Object data) {
+	/**
+	 * 把proto的类转换为Map
+	 *
+	 * @param fieldDescriptor
+	 * @param data
+	 * @return
+	 */
+	private static Object protoClass2Java(Descriptors.FieldDescriptor fieldDescriptor, Object data) {
 
 		switch (fieldDescriptor.getJavaType()) {
 			case STRING:
@@ -119,8 +167,8 @@ public class ProtoBufUtil {
 			case ENUM:
 				break;
 			case MESSAGE:
-				Message messageData = (Message)data;
-				data = proto2Map(messageData);
+				Message messageData = (Message) data;
+				data = proto2Map( messageData );
 				break;
 			case INT:
 				break;
@@ -130,7 +178,7 @@ public class ProtoBufUtil {
 				break;
 			case BYTE_STRING:
 				if (data instanceof ByteString) {
-					data = ((ByteString)data).toByteArray();
+					data = ((ByteString) data).toByteArray();
 				}
 				break;
 		}
@@ -153,28 +201,7 @@ public class ProtoBufUtil {
 		}
 	}
 
-	/**
-	 * 将proto对象转换为Map
-	 *
-	 * @param message
-	 * @return
-	 */
-	public static Map <String, Object> proto2Map(Message message) {
 
-		Map <String, Object> resultMap = new HashMap <String, Object>();
-
-		message.getAllFields().forEach( (fieldDescriptor, o) -> {
-
-			if (fieldDescriptor.isRepeated()) {
-				AbstractList list = (AbstractList) o;
-				ArrayList arrayList = new ArrayList( list );
-				resultMap.put( fieldDescriptor.getName(), arrayList );
-			} else {
-				resultMap.put( fieldDescriptor.getName(),protoClass2Java( fieldDescriptor,o ) );
-			}
-		} );
-		return resultMap;
-	}
 
 
 }
