@@ -17,10 +17,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 
 /**
- * @description
- * @auther peng.chen
- * @create 2018/4/2 11:37
- * //
+ *
  */
 public class BaseServerProtoMessageDecode extends MessageToMessageDecoder <NettyIoProto.Base> {
 

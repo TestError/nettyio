@@ -1,8 +1,5 @@
 package com.zqgame.netty.io;
 
-import com.zqgame.netty.io.common.Constant;
-import com.zqgame.netty.io.exceptions.BusinessException;
-import com.zqgame.netty.io.exceptions.enums.ExceptionEnum;
 import com.zqgame.netty.io.handle.BaseServerProtoMessageDecode;
 import com.zqgame.netty.io.handle.BaseServerProtoMessageEncode;
 import com.zqgame.netty.io.proto.NettyIoProto;
@@ -23,9 +20,9 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- * @description
- * @auther peng.chen
- * @create 2018/3/14 13:28
+ *
+ *  peng.chen
+ *  2018/3/14 13:28
  */
 public class App {
 

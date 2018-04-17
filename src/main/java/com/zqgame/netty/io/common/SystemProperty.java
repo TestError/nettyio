@@ -1,9 +1,7 @@
 package com.zqgame.netty.io.common;
 
 /**
- * @description 存储系统变量
- * @auther peng.chen
- * @create 2018/4/8 11:11
+ *
  */
 public class SystemProperty {
 

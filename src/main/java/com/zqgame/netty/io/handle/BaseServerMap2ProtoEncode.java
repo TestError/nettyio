@@ -4,7 +4,6 @@ import com.google.protobuf.Message;
 import com.zqgame.netty.io.common.Constant;
 import com.zqgame.netty.io.exceptions.BusinessException;
 import com.zqgame.netty.io.exceptions.enums.ExceptionEnum;
-import com.zqgame.netty.io.proto.NettyIoProto;
 import com.zqgame.netty.io.utils.ProtoBufUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageEncoder;
@@ -12,15 +11,12 @@ import io.netty.util.internal.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * @description 把map对象转换为 Proto对象 方便上层进行直接使用Map进行操作
- * @auther peng.chen
- * @create 2018/4/9 15:19
+ *
  */
 public class BaseServerMap2ProtoEncode extends MessageToMessageEncoder <Map <String, Object>> {
 

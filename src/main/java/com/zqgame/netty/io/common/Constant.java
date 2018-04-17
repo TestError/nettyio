@@ -1,9 +1,7 @@
 package com.zqgame.netty.io.common;
 
 /**
- * @description 存储一些常量
- * @auther peng.chen
- * @create 2018/4/3 17:27
+ *
  */
 public class Constant {
 

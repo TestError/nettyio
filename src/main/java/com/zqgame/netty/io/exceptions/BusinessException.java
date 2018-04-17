@@ -1,13 +1,10 @@
 package com.zqgame.netty.io.exceptions;
 
-import com.zqgame.netty.io.common.Constant;
 import com.zqgame.netty.io.common.SystemProperty;
 import com.zqgame.netty.io.exceptions.enums.ExceptionEnum;
 
 /**
- * @description 自定义异常类, 默认关闭堆栈信息, 测试时启用堆栈信息
- * @auther peng.chen
- * @create 2018/4/3 16:45
+ *
  */
 public class BusinessException extends RuntimeException {
 
@@ -52,6 +49,7 @@ public class BusinessException extends RuntimeException {
 	}
 
 	/**
+	 * @auther peng.chen
 	 * @param exceptionEnum 异常枚举
 	 * @param detailMessage 明细信息
 	 * @param cause         原因

@@ -1,9 +1,7 @@
 package com.zqgame.netty.io.exceptions.enums;
 
 /**
- * @description 统一的事务异常枚举
- * @auther peng.chen
- * @create 2018/4/3 16:46
+ *
  */
 public enum  ExceptionEnum {
 

@@ -4,15 +4,13 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.util.CharsetUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @description
- * @auther peng.chen
- * @create 2018/3/14 14:14
+ *
+ * peng.chen
+ *  2018/3/14 14:14
  */
 public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
 
@@ -20,38 +18,38 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
 
 
 	@Override
-	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+	public void channelInactive(ChannelHandlerContext ctx) {
 		logger.debug("链接不活动");
 	}
 
 	@Override
-	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+	public void channelReadComplete(ChannelHandlerContext ctx) {
 		ctx.flush();
 		logger.debug("消息读完了");
 	}
 
 	@Override
-	public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+	public void userEventTriggered(ChannelHandlerContext ctx, Object evt) {
 		logger.debug("用户事件触发了");
 	}
 
 	@Override
-	public void channelWritabilityChanged(ChannelHandlerContext ctx) throws Exception {
+	public void channelWritabilityChanged(ChannelHandlerContext ctx) {
 		logger.debug("可写触发了");
 	}
 
 	@Override
-	public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+	public void channelRegistered(ChannelHandlerContext ctx) {
 		logger.debug("新的连接了");
 	}
 
 	@Override
-	public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+	public void channelUnregistered(ChannelHandlerContext ctx) {
 		logger.debug("连接释放了:{}");
 	}
 
 	@Override
-	public void channelActive(ChannelHandlerContext ctx) throws Exception {
+	public void channelActive(ChannelHandlerContext ctx) {
 
 		logger.debug("新链接活动,ip:{}", ctx.channel().remoteAddress().toString());
 
@@ -80,7 +78,7 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
 	}
 
 	@Override
-	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+	public void channelRead(ChannelHandlerContext ctx, Object msg) {
 //		try {
 
 
@@ -104,7 +102,7 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
 	}
 
 	@Override
-	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
 
 		logger.warn("连接异常", cause);
 		ctx.close();

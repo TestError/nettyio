@@ -16,9 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @description 把proto对象转换为Map对象,方便上层可以不使用ProtoBuf进行开发
- * @auther peng.chen
- * @create 2018/4/9 15:19
+ *
  */
 public class BaseServerProto2MapDecode extends MessageToMessageDecoder<Map<String,Object>> {
 

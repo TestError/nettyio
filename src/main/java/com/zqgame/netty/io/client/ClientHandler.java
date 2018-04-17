@@ -8,16 +8,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @description
- * @auther peng.chen
- * @create 2018/3/15 13:41
+ *
  */
 public class ClientHandler extends ChannelInboundHandlerAdapter {
 
 	private static Logger logger = LoggerFactory.getLogger(ClientHandler.class);
 
 	@Override
-	public void channelActive(ChannelHandlerContext ctx) throws Exception {
+	public void channelActive(ChannelHandlerContext ctx) {
 
 		ByteBuf byteBuf = ctx.alloc().buffer();
 
@@ -88,7 +86,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 	}
 
 	@Override
-	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
 		logger.warn("异常:{}", cause);
 
 		ctx.close();

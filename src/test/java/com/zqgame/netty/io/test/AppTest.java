@@ -4,22 +4,15 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.Message;
 import com.zqgame.netty.io.proto.NettyIoProto;
 import com.zqgame.netty.io.utils.ProtoBufUtil;
-import javafx.beans.property.ReadOnlyFloatWrapper;
-import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Flow;
 
 /**
- * @description
- * @auther peng.chen
- * @create 2018/3/14 13:32
+ *
  */
 public class AppTest {
 
@@ -27,9 +20,9 @@ public class AppTest {
 
 
 	/**
-	 * @description
-	 * @auther peng.chen
-	 * @create 2018/3/14 13:29
+	 *
+	 * @throws InterruptedException
+	 * @throws ExecutionException
 	 */
 	@Test
 	public void testApp() throws InterruptedException, ExecutionException {

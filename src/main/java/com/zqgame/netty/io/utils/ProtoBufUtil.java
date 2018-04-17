@@ -12,9 +12,9 @@ import java.util.*;
 import java.util.regex.Matcher;
 
 /**
- * @description 方便protobuf的对象和map对象进行转换的工具
- * @auther peng.chen
- * @create 2018/4/9 17:22
+ *  方便protobuf的对象和map对象进行转换的工具
+ *  peng.chen
+ *  2018/4/9 17:22
  */
 public class ProtoBufUtil {
 

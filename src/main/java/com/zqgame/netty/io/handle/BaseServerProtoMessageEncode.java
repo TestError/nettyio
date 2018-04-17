@@ -2,7 +2,6 @@ package com.zqgame.netty.io.handle;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.Message;
-import com.google.protobuf.MessageOrBuilder;
 import com.zqgame.netty.io.common.Constant;
 import com.zqgame.netty.io.exceptions.BusinessException;
 import com.zqgame.netty.io.exceptions.enums.ExceptionEnum;
@@ -16,9 +15,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @description 输入格式应该类似 Map<String,Object>{"proto":"com.zqgame.netty.io.proto.NettyIoProto.Sample","message":{"sampleProperty":"PropertyContent"}};
- * @auther peng.chen
- * @create 2018/4/3 15:59
+ *  输入格式应该类似 Map<String,Object>{"proto":"com.zqgame.netty.io.proto.NettyIoProto.Sample","message":{"sampleProperty":"PropertyContent"}};
+ *  peng.chen
+ *  2018/4/3 15:59
  */
 public class BaseServerProtoMessageEncode extends MessageToMessageEncoder<Map<String,Object>> {
 

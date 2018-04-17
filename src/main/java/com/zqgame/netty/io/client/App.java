@@ -1,6 +1,5 @@
 package com.zqgame.netty.io.client;
 
-import com.zqgame.netty.io.proto.NettyIoProto;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -15,9 +14,7 @@ import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 
 /**
- * @description 测试客户端
- * @auther peng.chen
- * @create 2018/3/15 13:35
+ *
  */
 public class App {
 
