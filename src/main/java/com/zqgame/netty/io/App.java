@@ -1,5 +1,7 @@
 package com.zqgame.netty.io;
 
+import com.zqgame.netty.io.handle.BaseServerMap2ProtoEncode;
+import com.zqgame.netty.io.handle.BaseServerProto2MapDecode;
 import com.zqgame.netty.io.handle.BaseServerProtoMessageDecode;
 import com.zqgame.netty.io.handle.BaseServerProtoMessageEncode;
 import com.zqgame.netty.io.proto.NettyIoProto;
@@ -61,6 +63,8 @@ public class App {
 						socketChannel.pipeline().addLast( new BaseServerProtoMessageDecode() );
 						socketChannel.pipeline().addLast( new BaseServerProtoMessageEncode() );
 
+						socketChannel.pipeline().addLast(new BaseServerMap2ProtoEncode());
+						socketChannel.pipeline().addLast(new BaseServerProto2MapDecode());
 //						socketChannel.pipeline().addLast(new LengthFieldBasedFrameDecoder(65535,0,2,0,2));
 //						socketChannel.pipeline().addLast(new LengthFieldPrepender(8));
 

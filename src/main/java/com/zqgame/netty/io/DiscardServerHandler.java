@@ -1,11 +1,15 @@
 package com.zqgame.netty.io;
 
+import com.zqgame.netty.io.common.Constant;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -53,14 +57,25 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
 
 		logger.debug("新链接活动,ip:{}", ctx.channel().remoteAddress().toString());
 
-		ByteBuf time = ctx.alloc().buffer(4);
+		Map<String,Object> message = new HashMap<String,Object>();
+
+		message.put(Constant.PROTO,"com.zqgame.netty.io.proto.NettyIoProto.IOTest");
+		Map<String,Object> body = new HashMap<String,Object>();
+		body.put("message","测试消息哦！！！！！！！！！！！！");
+
+		message.put(Constant.MESSAGE,body);
+
+		ctx.writeAndFlush(message);
+
+
+		/*ByteBuf time = ctx.alloc().buffer(4);
 		time.writeInt((int) (System.currentTimeMillis() / 1000L));
 
 		ChannelFuture f = ctx.writeAndFlush(time.toString());
 		logger.debug(ctx.channel().id().asShortText());
 		logger.debug(ctx.channel().toString());
 
-		f.channel().write("123456");
+		f.channel().write("123456");*/
 
 //		logger.debug(f.toString());
 //		f.
@@ -81,19 +96,20 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
 	public void channelRead(ChannelHandlerContext ctx, Object msg) {
 //		try {
 
+		Map<String,Object> message = (Map<String,Object>)msg;
 
-		String in = (String) msg;
+//		String in = (String) msg;
 
-		String rev = in.toString();
-		logger.debug("接收到信息:{}", rev);
-		ctx.writeAndFlush(msg);
-
-
+//		String rev = in.toString();
+		logger.debug("接收到信息:{}", message);
+		ctx.writeAndFlush(message);
 
 
-		if (rev.equals("c")) {
-			ctx.channel().close();
-		}
+
+
+//		if (rev.equals("c")) {
+//			ctx.channel().close();
+//		}
 //			ctx.close();
 
 //		} finally {

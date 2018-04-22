@@ -42,3 +42,8 @@ message Test
     bytes code = 5;
     uint32 uintValue = 6;
 }
+
+message IOTest
+{
+	string message = 1; //测试的消息
+}
