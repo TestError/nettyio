@@ -61,6 +61,8 @@ public class App {
 
 					ch.pipeline().addLast(new ClientHandler());
 
+
+
 				}
 			});
 
