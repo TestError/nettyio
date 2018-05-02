@@ -10,6 +10,11 @@ public class Constant {
 	 */
 	public final static String IS_DEBUG = "com.zqgame.netty.io.isdebug";
 
+	/**
+	 * xml路径
+	 */
+	public final static String APPLICATION_XML_PATH = "com.zqgame.netty.io.application.xml.path";
+
 	public final static String TRUE = "true";
 
 	/**

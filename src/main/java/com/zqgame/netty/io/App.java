@@ -1,5 +1,7 @@
 package com.zqgame.netty.io;
 
+import com.zqgame.netty.io.common.SystemProperty;
+import com.zqgame.netty.io.context.ContextGetter;
 import com.zqgame.netty.io.handle.BaseServerMap2ProtoEncode;
 import com.zqgame.netty.io.handle.BaseServerProto2MapDecode;
 import com.zqgame.netty.io.handle.BaseServerProtoMessageDecode;
@@ -19,92 +21,94 @@ import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.locks.ReentrantLock;
 
 
 /**
- *
- *  peng.chen
- *  2018/3/14 13:28
+ * peng.chen
+ * 2018/3/14 13:28
  */
 public class App {
 
-	private static Logger logger = LoggerFactory.getLogger(App.class);
+    private static Logger logger = LoggerFactory.getLogger(App.class);
 
-	private int port;
+    private int port;
 
-	public App(int port) {
-		this.port = port;
-	}
+    public App(int port) {
+        this.port = port;
+    }
 
+    public void run() throws InterruptedException {
+        EventLoopGroup bossGroup = new NioEventLoopGroup();
+        EventLoopGroup workerGroup = new NioEventLoopGroup();
 
+        ServerBootstrap b = new ServerBootstrap();
 
+        b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class).childHandler(
+                new ChannelInitializer<SocketChannel>() {
 
-	public void run() throws InterruptedException {
-		EventLoopGroup bossGroup = new NioEventLoopGroup();
-		EventLoopGroup workerGroup = new NioEventLoopGroup();
+                    @Override
+                    protected void initChannel(SocketChannel socketChannel) {
 
-		ServerBootstrap b = new ServerBootstrap();
+                        socketChannel.pipeline().addLast(new ProtobufVarint32LengthFieldPrepender());
+                        socketChannel.pipeline().addLast(new ProtobufVarint32FrameDecoder());
 
+                        socketChannel.pipeline().addLast(new ProtobufEncoder());
+                        socketChannel.pipeline().addLast(new ProtobufDecoder(NettyIoProto.Base.getDefaultInstance()));
 
+                        socketChannel.pipeline().addLast(new BaseServerProtoMessageDecode());
+                        socketChannel.pipeline().addLast(new BaseServerProtoMessageEncode());
 
+                        socketChannel.pipeline().addLast(new BaseServerMap2ProtoEncode());
+                        socketChannel.pipeline().addLast(new BaseServerProto2MapDecode());
 
-		b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class).childHandler(
-				new ChannelInitializer <SocketChannel>() {
+                        socketChannel.pipeline().addLast(new DiscardServerHandler());
 
-					@Override
-					protected void initChannel(SocketChannel socketChannel) {
+                    }
+                }
+        ).option(ChannelOption.SO_BACKLOG, 128).childOption(ChannelOption.SO_KEEPALIVE, true);
 
-						socketChannel.pipeline().addLast(new ProtobufVarint32LengthFieldPrepender());
-						socketChannel.pipeline().addLast(new ProtobufVarint32FrameDecoder());
+        ChannelFuture f = (ChannelFuture) b.bind(port).sync();
 
-						socketChannel.pipeline().addLast(new ProtobufEncoder());
-						socketChannel.pipeline().addLast(new ProtobufDecoder(NettyIoProto.Base.getDefaultInstance()));
+        logger.debug(f.toString());
 
-						socketChannel.pipeline().addLast( new BaseServerProtoMessageDecode() );
-						socketChannel.pipeline().addLast( new BaseServerProtoMessageEncode() );
-
-						socketChannel.pipeline().addLast(new BaseServerMap2ProtoEncode());
-						socketChannel.pipeline().addLast(new BaseServerProto2MapDecode());
-//						socketChannel.pipeline().addLast(new LengthFieldBasedFrameDecoder(65535,0,2,0,2));
-//						socketChannel.pipeline().addLast(new LengthFieldPrepender(8));
-
-//						socketChannel.pipeline().addLast(new StringEncoder());
-//						socketChannel.pipeline().addLast(new StringDecoder());
-
-						socketChannel.pipeline().addLast(new DiscardServerHandler());
-
-					}
-				}
-		).option(ChannelOption.SO_BACKLOG, 128).childOption(ChannelOption.SO_KEEPALIVE, true);
-
-		ChannelFuture f = (ChannelFuture) b.bind(port).sync();
-//		var
-
-//		GlobalChannelTrafficShapingHandler
-
-		logger.debug(f.toString());
-
-//		ChannelPromise fp = f.
+        f.channel().closeFuture().sync();
 
 
+        workerGroup.shutdownGracefully();
+        bossGroup.shutdownGracefully();
 
-		f.channel().closeFuture().sync();
-
-//		f.channel().close();
-
-		workerGroup.shutdownGracefully();
-		bossGroup.shutdownGracefully();
-
-	}
+    }
 
 
-//	public static volatile boolean callStop = false;
+    private static CountDownLatch countDownLatch = new CountDownLatch(1);
 
-	public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, IllegalAccessException {
+
+
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext(SystemProperty.APPLICATION_XML_PATH);
+
+        applicationContext.start();
+        ContextGetter.setApplicationContext(applicationContext);
+
+
+
+        applicationContext.registerShutdownHook();
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            countDownLatch.countDown();
+            logger.debug("system exit");
+        }));
+
+        countDownLatch.await();
 
 
 //		logger.info( "开始跑了" );
-		new App(8000).run();
+//		new App(8000).run();
 
 //		new App(8001).run();
 
@@ -131,7 +135,7 @@ public class App {
 
 		}));
 */
-	}
+    }
 
 
 }
