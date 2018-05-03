@@ -21,11 +21,13 @@ import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.locks.ReentrantLock;
 
 
 /**
@@ -97,12 +99,24 @@ public class App {
 
 
 
-        applicationContext.registerShutdownHook();
+//        applicationContext.registerShutdownHook();
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             countDownLatch.countDown();
             logger.debug("system exit");
         }));
+
+        logger.debug("bean:{}", applicationContext.getBean("testMessage"));
+
+        Map messageMap = (Map)applicationContext.getBean("messageMap");
+
+        Method method = (Method)messageMap.get("com.zqgame.netty.io.proto.NettyIoProto.Test");
+
+        try {
+            method.invoke(applicationContext.getBean(method.getDeclaringClass()),new HashMap<>());
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
 
         countDownLatch.await();
 

@@ -7,14 +7,20 @@ module com.zqgame.netty.io {
 
 	requires protobuf.java;
 	requires io.netty.all;
-//	requires slf4j.log4j12;
+
 	requires slf4j.api;
 	requires spring.context;
+	requires spring.core;
+	requires spring.beans;
 	requires java.sql;
-//	requires log4j;
-//	requires junit;
+//	requires java.annotation;
+
 	exports com.zqgame.netty.io.handle;
 	exports com.zqgame.netty.io.proto;
 	exports com.zqgame.netty.io.utils;
+	exports com.zqgame.netty.io.message;
+	exports com.zqgame.netty.io.annotations.registers;
+
+	opens com.zqgame.netty.io.annotations.registers;
 
 }

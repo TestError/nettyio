@@ -14,8 +14,9 @@
     <context:annotation-config/>
     <context:component-scan base-package="com.zqgame.netty.io.message"/>
 
+    <bean name="messageMap" class="java.util.HashMap"/>
 
-
+    <bean name="messageAnnotationRegister" class="com.zqgame.netty.io.annotations.registers.MessageAnnotationRegister"></bean>
 
 
 

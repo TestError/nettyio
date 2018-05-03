@@ -5,8 +5,12 @@ import com.google.protobuf.Message;
 import com.zqgame.netty.io.proto.NettyIoProto;
 import com.zqgame.netty.io.utils.ProtoBufUtil;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -14,6 +18,9 @@ import java.util.concurrent.ExecutionException;
 /**
  *
  */
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "classpath:application.xml")
 public class AppTest {
 
 	private static Logger logger = LoggerFactory.getLogger( AppTest.class );
