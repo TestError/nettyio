@@ -14,6 +14,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 /**
  *
@@ -35,6 +37,8 @@ public class AppTest {
 	public void testApp() throws InterruptedException, ExecutionException {
 
 
+		Executors.newFixedThreadPool(10);
+		Executors.newScheduledThreadPool(10);
 		logger.debug( "test" );
 
 

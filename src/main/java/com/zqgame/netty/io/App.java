@@ -28,6 +28,8 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
 
 
 /**
@@ -119,7 +121,9 @@ public class App {
         }
 
         countDownLatch.await();
-
+//        ExecutorService executorService = new ThreadPoolExecutor(1,2);
+//        ExecutorService executorService = new ExecutorService() {
+//        }
 
 //		logger.info( "开始跑了" );
 //		new App(8000).run();
