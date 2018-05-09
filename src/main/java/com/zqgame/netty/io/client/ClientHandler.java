@@ -6,7 +6,9 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,8 +25,18 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 
 		message.put(Constant.PROTO,"com.zqgame.netty.io.proto.NettyIoProto.Test");
 
-		ctx.writeAndFlush(message);
+		Map<String,Object> data = new HashMap<String, Object>();
+		data.put("item",1);
 
+		List<String> values = new ArrayList<String>();
+		values.add("12231321");
+
+		data.put("value",new ArrayList<String>().add("11111"));
+
+		message.put(Constant.MESSAGE,data);
+
+		ctx.writeAndFlush(message);
+		logger.debug("发消息了哦");
 
 	}
 

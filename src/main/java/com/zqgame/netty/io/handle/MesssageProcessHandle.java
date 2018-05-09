@@ -28,6 +28,7 @@ public class MesssageProcessHandle extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        logger.debug("new connection :{}" ,ctx.channel().remoteAddress());
         super.channelActive(ctx);
     }
 
@@ -39,17 +40,21 @@ public class MesssageProcessHandle extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        super.channelInactive(ctx);
+
+        logger.debug("new connection :{}" ,ctx.channel().remoteAddress());
+//        super.channelInactive(ctx);
     }
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
         ctx.flush();
-        super.channelReadComplete(ctx);
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+
+
+        logger.debug("接受到了哦");
 
         Map<String, Object> mapMessage = (Map<String, Object>) msg;
 
