@@ -22,10 +22,11 @@ public class TestMessage  extends MessageBase{
      * @param data 链里获取的数据
      */
     @Message(proto = "com.zqgame.netty.io.proto.NettyIoProto.Test")
-    public void onCallTest(Map<String,Object> data){
+    public String onCallTest(Map<String,Object> data){
 
         logger.debug("调用了哦,数据为:{}",data);
 
+        return "helloworld";
     }
 
 }

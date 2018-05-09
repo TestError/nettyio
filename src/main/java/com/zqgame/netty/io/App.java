@@ -1,11 +1,9 @@
 package com.zqgame.netty.io;
 
+import com.zqgame.netty.io.common.Constant;
 import com.zqgame.netty.io.common.SystemProperty;
 import com.zqgame.netty.io.context.ContextGetter;
-import com.zqgame.netty.io.handle.BaseServerMap2ProtoEncode;
-import com.zqgame.netty.io.handle.BaseServerProto2MapDecode;
-import com.zqgame.netty.io.handle.BaseServerProtoMessageDecode;
-import com.zqgame.netty.io.handle.BaseServerProtoMessageEncode;
+import com.zqgame.netty.io.handle.*;
 import com.zqgame.netty.io.proto.NettyIoProto;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -27,6 +25,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -70,7 +69,7 @@ public class App {
                         socketChannel.pipeline().addLast(new BaseServerMap2ProtoEncode());
                         socketChannel.pipeline().addLast(new BaseServerProto2MapDecode());
 
-                        socketChannel.pipeline().addLast(new DiscardServerHandler());
+                        socketChannel.pipeline().addLast(new MesssageProcessHandle());
 
                     }
                 }
@@ -103,14 +102,16 @@ public class App {
 
 //        applicationContext.registerShutdownHook();
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            countDownLatch.countDown();
-            logger.debug("system exit");
-        }));
+//        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+//            countDownLatch.countDown();
+//            logger.debug("system exit");
+//        }));
+
+//        Callable
 
         logger.debug("bean:{}", applicationContext.getBean("testMessage"));
 
-        Map messageMap = (Map)applicationContext.getBean("messageMap");
+        Map messageMap = (Map)applicationContext.getBean(Constant.MESSAGE_MAP);
 
         Method method = (Method)messageMap.get("com.zqgame.netty.io.proto.NettyIoProto.Test");
 
@@ -120,13 +121,13 @@ public class App {
             e.printStackTrace();
         }
 
-        countDownLatch.await();
+//        countDownLatch.await();
 //        ExecutorService executorService = new ThreadPoolExecutor(1,2);
 //        ExecutorService executorService = new ExecutorService() {
 //        }
 
 //		logger.info( "开始跑了" );
-//		new App(8000).run();
+		new App(8000).run();
 
 //		new App(8001).run();
 

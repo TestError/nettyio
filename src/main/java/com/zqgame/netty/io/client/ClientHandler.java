@@ -1,10 +1,12 @@
 package com.zqgame.netty.io.client;
 
+import com.zqgame.netty.io.common.Constant;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -16,6 +18,12 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) {
+
+		Map<String,Object> message = new HashMap<String, Object>();
+
+		message.put(Constant.PROTO,"com.zqgame.netty.io.proto.NettyIoProto.Test");
+
+		ctx.writeAndFlush(message);
 
 
 	}
