@@ -23,13 +23,18 @@
         <property name="staticField" value="java.util.concurrent.TimeUnit.MILLISECONDS"/>
     </bean>
 
+    <bean name="taskQueue" class="java.util.concurrent.LinkedBlockingQueue"/>
+
     <bean name="threadPool" class="java.util.concurrent.ThreadPoolExecutor">
-        <constructor-arg index="0" value="4" type="java.lang.Integer"/>
-        <constructor-arg index="1" value="20" type="java.lang.Integer"/>
-        <constructor-arg index="2" value="0L" type="java.lang.Long"/>
+        <constructor-arg index="0" value="4" />
+        <constructor-arg index="1" value="20" />
+        <constructor-arg index="2" >
+            <bean class="java.lang.Long" >
+                <constructor-arg index="0" value="0"/>
+            </bean>
+        </constructor-arg>
         <constructor-arg index="3" ref="defaultTimeUnit"/>
-
-
+        <constructor-arg index="4" ref="taskQueue"/>
     </bean>
 
 </beans>

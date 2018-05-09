@@ -27,4 +27,9 @@ public class Constant {
 	 */
 	public final static String MESSAGE = "message";
 
+	/**
+	 * messageMap
+	 */
+	public final static String MESSAGE_MAP = "messageMap";
+
 }
