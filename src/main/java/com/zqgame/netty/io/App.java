@@ -115,11 +115,11 @@ public class App {
 
         Method method = (Method)messageMap.get("com.zqgame.netty.io.proto.NettyIoProto.Test");
 
-        try {
-            method.invoke(applicationContext.getBean(method.getDeclaringClass()),new HashMap<>());
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            method.invoke(applicationContext.getBean(method.getDeclaringClass()),new HashMap<>());
+//        } catch (InvocationTargetException e) {
+//            e.printStackTrace();
+//        }
 
 //        countDownLatch.await();
 //        ExecutorService executorService = new ThreadPoolExecutor(1,2);
