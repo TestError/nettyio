@@ -1,5 +1,6 @@
 package com.zqgame.netty.io.handle;
 
+import com.zqgame.netty.io.annotations.MessageParamType;
 import com.zqgame.netty.io.common.Constant;
 import com.zqgame.netty.io.context.ContextGetter;
 import com.zqgame.netty.io.exceptions.BusinessException;
@@ -10,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -28,7 +30,7 @@ public class MesssageProcessHandle extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        logger.debug("new connection :{}" ,ctx.channel().remoteAddress());
+        logger.debug("new connection :{}", ctx.channel().remoteAddress());
         super.channelActive(ctx);
     }
 
@@ -41,7 +43,7 @@ public class MesssageProcessHandle extends ChannelInboundHandlerAdapter {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
 
-        logger.debug("new connection :{}" ,ctx.channel().remoteAddress());
+        logger.debug("new connection :{}", ctx.channel().remoteAddress());
 //        super.channelInactive(ctx);
     }
 
@@ -72,16 +74,49 @@ public class MesssageProcessHandle extends ChannelInboundHandlerAdapter {
 
         Map<String, Object> message = (Map<String, Object>) mapMessage.get(Constant.MESSAGE);
 
-        Class messageCompontentClass = method.getDeclaringClass();
-        Object messageCompontent = applicationContext.getBean(messageCompontentClass);
+        Class messageComponentClass = method.getDeclaringClass();
+        Object messageComponent = applicationContext.getBean(messageComponentClass);
 
         Runnable task = () -> {
 
             try {
-                Object result = method.invoke(messageCompontent, message);
-                logger.debug("result:{}",result);
+                Annotation[][] paramAnnotations = method.getParameterAnnotations();
+                int paramCount = paramAnnotations.length;
+                Object [] param = new Object[paramCount];
+
+                for (int i=0;i<paramCount;i++){
+
+                    var item = paramAnnotations[i];
+                    param[i] = null;
+                    for (var innerItem : item) {
+                        if (innerItem instanceof MessageParamType) {
+                            MessageParamType messageParamType = (MessageParamType) innerItem;
+                            switch (messageParamType.value()) {
+                                case Constant.PROTO:
+                                    param[i] = proto;
+                                    break;
+                                case Constant.MESSAGE:
+                                    param[i] = message;
+                                    break;
+                                case Constant.CHANNEL_HANDLER_CONTEXT:
+                                    param[i] = ctx;
+                                    break;
+                                case Constant.ACCOUNT:
+                                    break;
+                                default:
+                                    break;
+                            }
+                            break;
+                        }
+                    }
+                }
+
+                Object result = method.invoke(messageComponent, param);
+                logger.debug("result:{}", result);
+
+                ctx.disconnect();
             } catch (IllegalAccessException | InvocationTargetException e) {
-                logger.error("调度异常  e:{}",e);
+                logger.error("调度异常  e:{}", e);
             }
 
         };
@@ -89,7 +124,6 @@ public class MesssageProcessHandle extends ChannelInboundHandlerAdapter {
         Executor executor = (Executor) applicationContext.getBean("threadPool");
         executor.execute(task);
 
-        super.channelRead(ctx, msg);
     }
 
     @Override

@@ -32,4 +32,15 @@ public class Constant {
 	 */
 	public final static String MESSAGE_MAP = "messageMap";
 
+	/**
+	 * account 账号 未使用
+	 * 保留,后期加入账号系统后使用
+	 */
+	public final static String ACCOUNT = "account";
+
+	/**
+	 * channelHandlerContext 方便用户进行异步的发送消息
+	 */
+	public final static String CHANNEL_HANDLER_CONTEXT = "channelHandlerContext";
+
 }
