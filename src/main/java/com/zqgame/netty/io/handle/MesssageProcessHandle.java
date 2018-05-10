@@ -55,15 +55,13 @@ public class MesssageProcessHandle extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
-
-        logger.debug("接受到了哦");
-
-        Map<String, Object> mapMessage = (Map<String, Object>) msg;
-
+        //从spring里拿取存接收消息的方法的map
         ApplicationContext applicationContext = ContextGetter.getApplicationContext();
-
         Map map = (Map) applicationContext.getBean(Constant.MESSAGE_MAP);
 
+        //消息转为Map
+        Map<String, Object> mapMessage = (Map<String, Object>) msg;
+        //
         String proto = (String) mapMessage.get(Constant.PROTO);
 
         Method method = (Method) map.get(proto);
@@ -85,7 +83,6 @@ public class MesssageProcessHandle extends ChannelInboundHandlerAdapter {
                 Object [] param = new Object[paramCount];
 
                 for (int i=0;i<paramCount;i++){
-
                     var item = paramAnnotations[i];
                     param[i] = null;
                     for (var innerItem : item) {
@@ -106,16 +103,22 @@ public class MesssageProcessHandle extends ChannelInboundHandlerAdapter {
                                 default:
                                     break;
                             }
+                            //只拿第一个,第一次执行完成后就推出循环
                             break;
                         }
                     }
                 }
 
                 Object result = method.invoke(messageComponent, param);
-                logger.debug("result:{}", result);
+
+                if (result != null){
+                    logger.debug("result:{}", result);
+                }
+
+                ctx.writeAndFlush(result);
 
                 ctx.disconnect();
-            } catch (IllegalAccessException | InvocationTargetException e) {
+            } catch (Exception e) {
                 logger.error("调度异常  e:{}", e);
             }
 
