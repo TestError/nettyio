@@ -113,11 +113,9 @@ public class MesssageProcessHandle extends ChannelInboundHandlerAdapter {
 
                 if (result != null){
                     logger.debug("result:{}", result);
+                    ctx.writeAndFlush(result);
                 }
 
-                ctx.writeAndFlush(result);
-
-                ctx.disconnect();
             } catch (Exception e) {
                 logger.error("调度异常  e:{}", e);
             }
@@ -134,6 +132,5 @@ public class MesssageProcessHandle extends ChannelInboundHandlerAdapter {
 
         logger.error("caught Exception :{}",cause);
 
-//        super.exceptionCaught(ctx, cause);
     }
 }

@@ -25,10 +25,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.*;
 
 
 /**
@@ -114,6 +111,31 @@ public class App {
         Map messageMap = (Map)applicationContext.getBean(Constant.MESSAGE_MAP);
 
         Method method = (Method)messageMap.get("com.zqgame.netty.io.proto.NettyIoProto.Test");
+
+
+        ScheduledExecutorService scheduledExecutorService = (ScheduledExecutorService)applicationContext.getBean("scheduleThreadPool");
+
+
+        Runnable oneRun = () -> {
+
+            logger.debug("运行了一次");
+
+        };
+
+        Runnable moreRun = () -> {
+            logger.debug("运行了多次");
+        };
+
+        scheduledExecutorService.schedule(oneRun,1,TimeUnit.SECONDS);
+
+        ScheduledFuture scheduledFuture = scheduledExecutorService.scheduleWithFixedDelay(moreRun,1,5,TimeUnit.SECONDS);
+
+        scheduledExecutorService.schedule(() -> {scheduledFuture.cancel(true);},20,TimeUnit.SECONDS);
+//        scheduledExecutorService
+
+
+
+//        scheduledExecutorService.scheduleWithFixedDelay()
 
 //        try {
 //            method.invoke(applicationContext.getBean(method.getDeclaringClass()),new HashMap<>());

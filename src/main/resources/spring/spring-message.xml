@@ -17,6 +17,7 @@
     <context:component-scan base-package="com.zqgame.netty.io.message"/>
 
     <bean name="messageMap" class="java.util.HashMap"/>
+    <!--注册注解-->
     <bean name="messageAnnotationRegister" class="com.zqgame.netty.io.annotations.registers.MessageAnnotationRegister"></bean>
 
     <bean name="defaultTimeUnit" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
@@ -35,6 +36,11 @@
         </constructor-arg>
         <constructor-arg index="3" ref="defaultTimeUnit"/>
         <constructor-arg index="4" ref="taskQueue"/>
+    </bean>
+
+    <!--计划调度的线程池-->
+    <bean name="scheduleThreadPool" class="java.util.concurrent.ScheduledThreadPoolExecutor">
+        <constructor-arg index="0" value="4"/>
     </bean>
 
 </beans>
