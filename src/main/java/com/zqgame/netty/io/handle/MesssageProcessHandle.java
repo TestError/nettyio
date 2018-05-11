@@ -131,6 +131,9 @@ public class MesssageProcessHandle extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        super.exceptionCaught(ctx, cause);
+
+        logger.error("caught Exception :{}",cause);
+
+//        super.exceptionCaught(ctx, cause);
     }
 }
