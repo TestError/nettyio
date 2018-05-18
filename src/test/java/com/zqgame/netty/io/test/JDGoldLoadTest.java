@@ -12,12 +12,13 @@ public class JDGoldLoadTest {
 	public void test(){
 
 		LocalDate now = LocalDate.now();
-		LocalDate lastUpdateDate = LocalDate.of(2018,4,18);
+		LocalDate lastUpdateDate = LocalDate.of(2018,5,18);
 
 		double baseRate = 0.0005;
 		double baseMoney = 11250;
 		double monthMoney = 1250;
 
+		baseMoney = baseMoney - monthMoney;	//2018-5-18 09:21:21
 //		now = LocalDate.of(2018,4,18);
 //		lastUpdateDate = LocalDate.of(2018,3,18);
 
@@ -32,11 +33,13 @@ public class JDGoldLoadTest {
 		System.out.println(lastUpdateDate);
 		System.out.println(now);
 
-		double addRewardMoney = baseRate * baseMoney * dayCount;
+		double dayRewardMoney = baseRate * baseMoney;
+		double addRewardMoney = dayRewardMoney * dayCount;
 		double summaryMoney = baseMoney + addRewardMoney;
 
 		monthMoney += addRewardMoney;
 
+		System.out.println(dayRewardMoney);
 		System.out.println(addRewardMoney);
 		System.out.println(monthMoney);
 		System.out.println(summaryMoney);
