@@ -17,6 +17,7 @@ import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
+import io.netty.handler.timeout.IdleStateHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -65,6 +66,9 @@ public class App {
 
                         socketChannel.pipeline().addLast(new BaseServerMap2ProtoEncode());
                         socketChannel.pipeline().addLast(new BaseServerProto2MapDecode());
+
+                        //九十秒没有收到消息设置为断线
+                        socketChannel.pipeline().addLast(new IdleStateHandler(90,0,0,TimeUnit.SECONDS));
 
                         socketChannel.pipeline().addLast(new MesssageProcessHandle());
 

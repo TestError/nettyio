@@ -43,4 +43,9 @@ public class Constant {
 	 */
 	public final static String CHANNEL_HANDLER_CONTEXT = "channelHandlerContext";
 
+	/**
+	 * 心跳协议名
+	 */
+	public final static String HEART_BEAT_PROTO = "com.zqgame.netty.io.proto.NettyIoProto.HeartBeat";
+
 }

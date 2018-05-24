@@ -47,3 +47,9 @@ message IOTest
 {
 	string message = 1; //测试的消息
 }
+
+//心跳空协议
+message HeartBeat
+{
+
+}

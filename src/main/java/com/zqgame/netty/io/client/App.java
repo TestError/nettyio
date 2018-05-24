@@ -17,6 +17,9 @@ import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
+import io.netty.handler.timeout.IdleStateHandler;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -30,6 +33,7 @@ public class App {
 	public App(String host,int port){
 		this.host = host;
 		this.port = port;
+
 	}
 
 	public void run() throws InterruptedException{
@@ -59,6 +63,9 @@ public class App {
 					ch.pipeline().addLast(new BaseServerMap2ProtoEncode());
 					ch.pipeline().addLast(new BaseServerProto2MapDecode());
 
+					//30秒没有输出数据就发送心跳包
+					ch.pipeline().addLast(new IdleStateHandler(0,30,0,TimeUnit.SECONDS));
+
 					ch.pipeline().addLast(new ClientHandler());
 
 
@@ -67,7 +74,11 @@ public class App {
 			});
 
 			ChannelFuture channelFuture = bootstrap.connect(host,port).sync();
-			channelFuture.channel().closeFuture().sync();
+			channelFuture.channel().closeFuture().addListener(future -> {
+
+				bootstrap.connect(host,port).sync();
+
+			});
 
 
 		}finally {

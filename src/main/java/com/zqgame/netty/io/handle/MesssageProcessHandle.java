@@ -7,6 +7,9 @@ import com.zqgame.netty.io.exceptions.BusinessException;
 import com.zqgame.netty.io.exceptions.enums.ExceptionEnum;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.handler.timeout.IdleState;
+import io.netty.handler.timeout.IdleStateEvent;
+import io.netty.handler.timeout.IdleStateHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -16,11 +19,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.concurrent.Executor;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 public class MesssageProcessHandle extends ChannelInboundHandlerAdapter {
 
     private static Logger logger = LoggerFactory.getLogger(MesssageProcessHandle.class);
+
+
 
     /**
      * 连接上
@@ -31,7 +37,27 @@ public class MesssageProcessHandle extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         logger.debug("new connection :{}", ctx.channel().remoteAddress());
+
+
+
         super.channelActive(ctx);
+    }
+
+    @Override
+    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+
+    	if (evt instanceof  IdleStateEvent){
+		    IdleStateEvent idleStateEvent = (IdleStateEvent) evt;
+
+		    if (idleStateEvent.state() == IdleState.READER_IDLE){
+			    logger.debug("长时间未接受到消息，超时关闭 event：{}  channel:{}",evt,ctx.channel());
+			    ctx.close();
+		    }
+	    }else {
+    	    ctx.fireUserEventTriggered(evt);
+        }
+
+
     }
 
     /**
@@ -63,6 +89,11 @@ public class MesssageProcessHandle extends ChannelInboundHandlerAdapter {
         Map<String, Object> mapMessage = (Map<String, Object>) msg;
         //
         String proto = (String) mapMessage.get(Constant.PROTO);
+
+        //不处理心跳协议
+        if (proto.equals(Constant.HEART_BEAT_PROTO)){
+            return ;
+        }
 
         Method method = (Method) map.get(proto);
         //为空报错
