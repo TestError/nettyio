@@ -25,9 +25,9 @@ import java.util.concurrent.TimeUnit;
 /**
  * 客户端 peng.chen 2018/06/26 17:00:24
  */
-public class AppClient {
+public class Client {
 
-    private static Logger logger = LoggerFactory.getLogger(AppClient.class);
+    private static Logger logger = LoggerFactory.getLogger(Client.class);
 
     /**
      * 实际连接的channel
@@ -68,7 +68,7 @@ public class AppClient {
      * @param host 主机Ip地址
      * @param port 对应的端口
      */
-    public AppClient(String host, int port) {
+    public Client(String host, int port) {
         this(host, port, (ChannelHandler[]) null);
     }
 
@@ -79,7 +79,7 @@ public class AppClient {
      * @param port
      * @param channelHandler 需要注意   这里的都需要加上注解@ChannelHandler.Sharable 否则在重连时会报错
      */
-    public AppClient(String host, int port, ChannelHandler channelHandler) {
+    public Client(String host, int port, ChannelHandler channelHandler) {
         this(host, port, new ChannelHandler[]{channelHandler});
     }
 
@@ -91,7 +91,7 @@ public class AppClient {
      * @param port            对应的端口
      * @param channelHandlers 需要注意   这里的都需要加上注解@ChannelHandler.Sharable 否则在重连时会报错
      */
-    public AppClient(String host, int port, ChannelHandler[] channelHandlers) {
+    public Client(String host, int port, ChannelHandler[] channelHandlers) {
 
         if (StringUtil.isNullOrEmpty(host)) {
             throw new IllegalArgumentException();

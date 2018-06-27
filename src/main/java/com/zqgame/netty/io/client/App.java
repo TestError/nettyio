@@ -8,10 +8,10 @@ public class App {
 	public static void main(String[] args) throws InterruptedException{
 
 
-	    AppClient appClient = new AppClient("127.0.0.1",8000, new ClientHandler());
-        appClient.connect();
+	    Client client = new Client("127.0.0.1",8000, new ClientHandler());
+        client.connect();
 //	    Thread.sleep(10000);
-//	    appClient.close();
+//	    client.close();
 
 
 	    Object o = new Object();
