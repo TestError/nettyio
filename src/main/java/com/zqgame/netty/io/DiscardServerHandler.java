@@ -56,17 +56,29 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
 	public void channelActive(ChannelHandlerContext ctx) {
 
 		logger.debug("新链接活动,ip:{}", ctx.channel().remoteAddress().toString());
+//
+//		Map<String,Object> message = new HashMap<String,Object>();
+//
+//		message.put(Constant.PROTO,"com.zqgame.netty.io.proto.NettyIoProto.IOTest");
+//		Map<String,Object> body = new HashMap<String,Object>();
+//		body.put("message","测试消息哦！！！！！！！！！！！！");
+//
+//		message.put(Constant.MESSAGE,body);
+//
+//		ctx.writeAndFlush(message);
 
-		Map<String,Object> message = new HashMap<String,Object>();
 
-		message.put(Constant.PROTO,"com.zqgame.netty.io.proto.NettyIoProto.IOTest");
-		Map<String,Object> body = new HashMap<String,Object>();
-		body.put("message","测试消息哦！！！！！！！！！！！！");
+		new Thread(() -> {
 
-		message.put(Constant.MESSAGE,body);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 
-		ctx.writeAndFlush(message);
+			ctx.channel().close();
 
+		}).start();
 
 		/*ByteBuf time = ctx.alloc().buffer(4);
 		time.writeInt((int) (System.currentTimeMillis() / 1000L));
@@ -96,13 +108,13 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
 	public void channelRead(ChannelHandlerContext ctx, Object msg) {
 //		try {
 
-		Map<String,Object> message = (Map<String,Object>)msg;
-
-//		String in = (String) msg;
-
-//		String rev = in.toString();
-		logger.debug("接收到信息:{}", message);
-		ctx.writeAndFlush(message);
+//		Map<String,Object> message = (Map<String,Object>)msg;
+//
+////		String in = (String) msg;
+//
+////		String rev = in.toString();
+//		logger.debug("接收到信息:{}", message);
+//		ctx.writeAndFlush(message);
 
 
 

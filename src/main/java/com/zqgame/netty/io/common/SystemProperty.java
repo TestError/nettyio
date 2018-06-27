@@ -10,7 +10,15 @@ public class SystemProperty {
 	 */
 	public final static boolean IS_DEBUG ;
 
+	/**
+	 * spring xml的位置
+	 */
 	public final static String APPLICATION_XML_PATH;
+
+	/**
+	 * 重连延时 毫秒为单位
+	 */
+	public final static long RECOUNNECT_DELAY_TIME = 5000;
 
 	static {
 		IS_DEBUG = System.getProperty( Constant.IS_DEBUG ) != null ? !System.getProperty( Constant.IS_DEBUG ).equals( Constant.TRUE ) : false;

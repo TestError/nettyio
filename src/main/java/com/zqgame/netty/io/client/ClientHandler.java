@@ -1,6 +1,7 @@
 package com.zqgame.netty.io.client;
 
 import com.zqgame.netty.io.common.Constant;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.timeout.IdleState;
@@ -16,6 +17,7 @@ import java.util.Map;
 /**
  *
  */
+@ChannelHandler.Sharable
 public class ClientHandler extends ChannelInboundHandlerAdapter {
 
 	private static Logger logger = LoggerFactory.getLogger(ClientHandler.class);
