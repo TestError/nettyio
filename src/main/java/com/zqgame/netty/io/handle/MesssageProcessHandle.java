@@ -5,6 +5,7 @@ import com.zqgame.netty.io.common.Constant;
 import com.zqgame.netty.io.context.ContextGetter;
 import com.zqgame.netty.io.exceptions.BusinessException;
 import com.zqgame.netty.io.exceptions.enums.ExceptionEnum;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.timeout.IdleState;
@@ -22,6 +23,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
+@ChannelHandler.Sharable
 public class MesssageProcessHandle extends ChannelInboundHandlerAdapter {
 
     private static Logger logger = LoggerFactory.getLogger(MesssageProcessHandle.class);

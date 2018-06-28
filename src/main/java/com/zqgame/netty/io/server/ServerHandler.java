@@ -1,24 +1,18 @@
-package com.zqgame.netty.io;
+package com.zqgame.netty.io.server;
 
-import com.zqgame.netty.io.common.Constant;
-import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  *
  * peng.chen
  *  2018/3/14 14:14
  */
-public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
+public class ServerHandler extends ChannelInboundHandlerAdapter {
 
-	private static Logger logger = LoggerFactory.getLogger(DiscardServerHandler.class);
+	private static Logger logger = LoggerFactory.getLogger(ServerHandler.class);
 
 
 	@Override
