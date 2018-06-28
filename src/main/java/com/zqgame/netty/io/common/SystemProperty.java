@@ -18,7 +18,17 @@ public class SystemProperty {
 	/**
 	 * 重连延时 毫秒为单位
 	 */
-	public final static long RECOUNNECT_DELAY_TIME = 5000;
+	public final static long RECOUNNECT_DELAY_TIME = 5000L;
+
+	/**
+	 * 心跳包的时间
+	 */
+	public final static int HEARTBEAT_TIME = 30;
+
+	/**
+	 * 心跳超时时间
+	 */
+	public final static int HEARTBEAT_TIME_OUT_TIME = 90;
 
 	static {
 		IS_DEBUG = System.getProperty( Constant.IS_DEBUG ) != null ? !System.getProperty( Constant.IS_DEBUG ).equals( Constant.TRUE ) : false;

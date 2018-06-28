@@ -1,10 +1,7 @@
 package com.zqgame.netty.io.client;
 
 import com.zqgame.netty.io.common.SystemProperty;
-import com.zqgame.netty.io.handle.BaseServerMap2ProtoEncode;
-import com.zqgame.netty.io.handle.BaseServerProto2MapDecode;
-import com.zqgame.netty.io.handle.BaseServerProtoMessageDecode;
-import com.zqgame.netty.io.handle.BaseServerProtoMessageEncode;
+import com.zqgame.netty.io.handle.*;
 import com.zqgame.netty.io.proto.NettyIoProto;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -127,7 +124,8 @@ public class Client {
                 ch.pipeline().addLast(new BaseServerProto2MapDecode());
 
                 //30秒没有输出数据就发送心跳包
-                ch.pipeline().addLast(new IdleStateHandler(0, 30, 0, TimeUnit.SECONDS));
+                ch.pipeline().addLast(new IdleStateHandler(0, SystemProperty.HEARTBEAT_TIME, 0, TimeUnit.SECONDS));
+                ch.pipeline().addLast(new BaseClientHeartbeatHandle());
 
                 if (channelHandlers != null) {
                     for (var item : channelHandlers) {

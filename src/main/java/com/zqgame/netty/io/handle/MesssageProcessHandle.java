@@ -45,22 +45,7 @@ public class MesssageProcessHandle extends ChannelInboundHandlerAdapter {
         super.channelActive(ctx);
     }
 
-    @Override
-    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
 
-    	if (evt instanceof  IdleStateEvent){
-		    IdleStateEvent idleStateEvent = (IdleStateEvent) evt;
-
-		    if (idleStateEvent.state() == IdleState.READER_IDLE){
-			    logger.debug("长时间未接受到消息，超时关闭 event：{}  channel:{}",evt,ctx.channel());
-			    ctx.close();
-		    }
-	    }else {
-    	    ctx.fireUserEventTriggered(evt);
-        }
-
-
-    }
 
     /**
      * 断线
@@ -91,12 +76,6 @@ public class MesssageProcessHandle extends ChannelInboundHandlerAdapter {
         Map<String, Object> mapMessage = (Map<String, Object>) msg;
         //
         String proto = (String) mapMessage.get(Constant.PROTO);
-
-        //不处理心跳协议
-        if (proto.equals(Constant.HEART_BEAT_PROTO)){
-            return ;
-        }
-
         Method method = (Method) map.get(proto);
         //为空报错
         if (method == null) {

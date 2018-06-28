@@ -1,9 +1,7 @@
 package com.zqgame.netty.io.server;
 
-import com.zqgame.netty.io.handle.BaseServerMap2ProtoEncode;
-import com.zqgame.netty.io.handle.BaseServerProto2MapDecode;
-import com.zqgame.netty.io.handle.BaseServerProtoMessageDecode;
-import com.zqgame.netty.io.handle.BaseServerProtoMessageEncode;
+import com.zqgame.netty.io.common.SystemProperty;
+import com.zqgame.netty.io.handle.*;
 import com.zqgame.netty.io.proto.NettyIoProto;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -93,7 +91,8 @@ public class Server {
                         ch.pipeline().addLast(new BaseServerProto2MapDecode());
 
                         //九十秒没有收到消息设置为断线
-                        ch.pipeline().addLast(new IdleStateHandler(90,0,0,TimeUnit.SECONDS));
+                        ch.pipeline().addLast(new IdleStateHandler(SystemProperty.HEARTBEAT_TIME_OUT_TIME,0,0,TimeUnit.SECONDS));
+                        ch.pipeline().addLast(new BaseServerHeartbeatHandle());
 
                         if (channelHandlers != null){
                             for(var item : channelHandlers){

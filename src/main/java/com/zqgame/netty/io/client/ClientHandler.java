@@ -24,26 +24,6 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 
 
 	@Override
-	public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-
-		if (evt instanceof IdleStateEvent){
-			IdleStateEvent idleStateEvent = (IdleStateEvent) evt;
-
-			//发送心跳包HeartBeat
-			if (idleStateEvent.state() == IdleState.WRITER_IDLE){
-				Map<String,Object> message = new HashMap<String, Object>();
-
-				message.put(Constant.PROTO,Constant.HEART_BEAT_PROTO);
-				ctx.writeAndFlush(message);
-			}
-		}else {
-			ctx.fireUserEventTriggered(evt);
-		}
-
-
-	}
-
-	@Override
 	public void channelActive(ChannelHandlerContext ctx) {
 
 		Map<String,Object> message = new HashMap<String, Object>();
