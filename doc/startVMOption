@@ -1,4 +1,5 @@
 --add-exports java.base/jdk.internal.misc=io.netty.all
 --add-opens java.base/java.nio=io.netty.all
+--add-modules=java.xml.ws.annotation
 -Dio.netty.tryReflectionSetAccessible=true
 -Dcom.zqgame.netty.io.isdebug=true

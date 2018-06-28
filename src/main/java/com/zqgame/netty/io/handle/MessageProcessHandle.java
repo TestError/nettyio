@@ -8,26 +8,25 @@ import com.zqgame.netty.io.exceptions.enums.ExceptionEnum;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.handler.timeout.IdleState;
-import io.netty.handler.timeout.IdleStateEvent;
-import io.netty.handler.timeout.IdleStateHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.concurrent.Executor;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
 
+@Component
 @ChannelHandler.Sharable
-public class MesssageProcessHandle extends ChannelInboundHandlerAdapter {
+public class MessageProcessHandle extends ChannelInboundHandlerAdapter {
 
-    private static Logger logger = LoggerFactory.getLogger(MesssageProcessHandle.class);
+    private static Logger logger = LoggerFactory.getLogger(MessageProcessHandle.class);
 
+    @Resource(name = "threadPool")
+    private Executor executor;
 
 
     /**
@@ -38,13 +37,11 @@ public class MesssageProcessHandle extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        logger.debug("new connection :{}", ctx.channel().remoteAddress());
-
+        logger.debug("new connection :{}", ctx.channel());
 
 
         super.channelActive(ctx);
     }
-
 
 
     /**
@@ -56,7 +53,7 @@ public class MesssageProcessHandle extends ChannelInboundHandlerAdapter {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
 
-        logger.debug("new connection :{}", ctx.channel().remoteAddress());
+//        logger.debug("new connection :{}", ctx.channel().remoteAddress());
 //        super.channelInactive(ctx);
     }
 
@@ -92,9 +89,9 @@ public class MesssageProcessHandle extends ChannelInboundHandlerAdapter {
             try {
                 Annotation[][] paramAnnotations = method.getParameterAnnotations();
                 int paramCount = paramAnnotations.length;
-                Object [] param = new Object[paramCount];
+                Object[] param = new Object[paramCount];
 
-                for (int i=0;i<paramCount;i++){
+                for (int i = 0; i < paramCount; i++) {
                     var item = paramAnnotations[i];
                     param[i] = null;
                     for (var innerItem : item) {
@@ -123,7 +120,7 @@ public class MesssageProcessHandle extends ChannelInboundHandlerAdapter {
 
                 Object result = method.invoke(messageComponent, param);
 
-                if (result != null){
+                if (result != null) {
                     logger.debug("result:{}", result);
                     ctx.writeAndFlush(result);
                 }
@@ -134,7 +131,7 @@ public class MesssageProcessHandle extends ChannelInboundHandlerAdapter {
 
         };
 
-        Executor executor = (Executor) applicationContext.getBean("threadPool");
+//        Executor executor = (Executor) applicationContext.getBean("threadPool");
         executor.execute(task);
 
     }
@@ -142,7 +139,7 @@ public class MesssageProcessHandle extends ChannelInboundHandlerAdapter {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
 
-        logger.error("caught Exception :{}",cause);
+        logger.error("caught Exception :{}", cause);
         ctx.fireExceptionCaught(cause);
     }
 }

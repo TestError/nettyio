@@ -13,7 +13,8 @@ module com.zqgame.netty.io {
 	requires spring.core;
 	requires spring.beans;
 	requires java.sql;
-//	requires java.annotation;
+//	requires java.xml.ws.annotation;
+    requires javax.annotation.api;
 
 	exports com.zqgame.netty.io.handle;
 	exports com.zqgame.netty.io.proto;
@@ -22,5 +23,5 @@ module com.zqgame.netty.io {
 	exports com.zqgame.netty.io.annotations.registers;
 
 	opens com.zqgame.netty.io.annotations.registers;
-
+	opens com.zqgame.netty.io.handle;
 }

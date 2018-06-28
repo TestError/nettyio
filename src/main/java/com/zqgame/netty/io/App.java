@@ -3,31 +3,19 @@ package com.zqgame.netty.io;
 import com.zqgame.netty.io.common.Constant;
 import com.zqgame.netty.io.common.SystemProperty;
 import com.zqgame.netty.io.context.ContextGetter;
-import com.zqgame.netty.io.handle.*;
-import com.zqgame.netty.io.proto.NettyIoProto;
-import com.zqgame.netty.io.server.Server;
-import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
-import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.protobuf.ProtobufDecoder;
-import io.netty.handler.codec.protobuf.ProtobufEncoder;
-import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
-import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
-import io.netty.handler.timeout.IdleStateHandler;
+import com.zqgame.netty.io.handle.MessageProcessHandle;
+import com.zqgame.netty.io.server.TCPServer;
+import com.zqgame.netty.io.server.UDPServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.*;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -51,7 +39,7 @@ public class App {
         ContextGetter.setApplicationContext(applicationContext);
 
 
-        var server = new Server(8000,new MesssageProcessHandle());
+        var server = new UDPServer(8000,applicationContext.getBean(MessageProcessHandle.class));
 
         server.bind();
 

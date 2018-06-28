@@ -41,6 +41,8 @@ public class BaseServerHeartbeatHandle extends ChannelInboundHandlerAdapter {
         //
         String proto = (String) mapMessage.get(Constant.PROTO);
 
+        logger.debug("收到消息:{}",msg);
+
         //不处理心跳协议
         if (proto.equals(Constant.HEART_BEAT_PROTO)){
             return ;

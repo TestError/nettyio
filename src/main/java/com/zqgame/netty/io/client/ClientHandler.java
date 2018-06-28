@@ -34,7 +34,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 		data.put("item",1);
 
 		List<String> values = new ArrayList<String>();
-		values.add("12231321");
+		values.add("12231ssssssssssssssssssssssssssssssssssssssssss321");
 
 		data.put("value",values);
 
