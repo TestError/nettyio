@@ -39,7 +39,7 @@ public class App {
         ContextGetter.setApplicationContext(applicationContext);
 
 
-        var server = new UDPServer(8000,applicationContext.getBean(MessageProcessHandle.class));
+        var server = new TCPServer(8000,applicationContext.getBean(MessageProcessHandle.class));
 
         server.bind();
 
