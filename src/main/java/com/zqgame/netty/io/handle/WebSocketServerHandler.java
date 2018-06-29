@@ -1,6 +1,5 @@
 package com.zqgame.netty.io.handle;
 
-import com.zqgame.netty.io.exceptions.BusinessException;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
@@ -14,9 +13,9 @@ import org.slf4j.LoggerFactory;
  * 处理websocekt的Handler
  * peng.chen 2018/06/29 17:24:02
  */
-public class WebSocketHandler extends ChannelInboundHandlerAdapter {
+public class WebSocketServerHandler extends ChannelInboundHandlerAdapter {
 
-    private Logger logger = LoggerFactory.getLogger(WebSocketHandler.class);
+    private Logger logger = LoggerFactory.getLogger(WebSocketServerHandler.class);
 
 
     @Override

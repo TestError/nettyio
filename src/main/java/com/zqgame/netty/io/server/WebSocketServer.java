@@ -1,13 +1,12 @@
 package com.zqgame.netty.io.server;
 
-import com.zqgame.netty.io.handle.WebSocketHandler;
+import com.zqgame.netty.io.handle.WebSocketServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
@@ -84,7 +83,7 @@ public class WebSocketServer implements Server {
                 ch.pipeline().addLast(new ChunkedWriteHandler());
                 ch.pipeline().addLast(new WebSocketServerCompressionHandler());
                 ch.pipeline().addLast(new WebSocketServerProtocolHandler(path, null, true));
-                ch.pipeline().addLast(new WebSocketHandler());
+                ch.pipeline().addLast(new WebSocketServerHandler());
 
             }
         });
