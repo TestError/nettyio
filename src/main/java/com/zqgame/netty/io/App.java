@@ -6,6 +6,7 @@ import com.zqgame.netty.io.context.ContextGetter;
 import com.zqgame.netty.io.handle.MessageProcessHandle;
 import com.zqgame.netty.io.server.TCPServer;
 import com.zqgame.netty.io.server.UDPServer;
+import com.zqgame.netty.io.server.WebSocketServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -39,7 +40,7 @@ public class App {
         ContextGetter.setApplicationContext(applicationContext);
 
 
-        var server = new TCPServer(8000,applicationContext.getBean(MessageProcessHandle.class));
+        var server = new WebSocketServer(8000,"/ws");
 
         server.bind();
 

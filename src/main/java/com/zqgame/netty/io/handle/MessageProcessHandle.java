@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+//import javax.annotation.Resource;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -25,7 +25,7 @@ public class MessageProcessHandle extends ChannelInboundHandlerAdapter {
 
     private static Logger logger = LoggerFactory.getLogger(MessageProcessHandle.class);
 
-    @Resource(name = "threadPool")
+//    @Resource(name = "threadPool")
     private Executor executor;
 
 
