@@ -40,6 +40,9 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 
 		message.put(Constant.MESSAGE,data);
 
+
+		logger.debug("channel:{}",ctx.channel());
+
 		ctx.writeAndFlush(message);
 		logger.debug("发消息了哦");
 
@@ -51,6 +54,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 		logger.debug("连接断掉了:{}",ctx);
 		super.channelInactive(ctx);
 	}
+
 
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {

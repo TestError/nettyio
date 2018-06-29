@@ -6,15 +6,11 @@ import com.zqgame.netty.io.proto.NettyIoProto;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioDatagramChannel;
-import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.DatagramPacketDecoder;
 import io.netty.handler.codec.DatagramPacketEncoder;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
-import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
-import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.internal.StringUtil;
 import org.slf4j.Logger;
@@ -73,8 +69,8 @@ public class UDPClient  implements Client {
     /**
      * 单一Handler的情况
      *
-     * @param host
-     * @param port
+     * @param host 主机Ip地址
+     * @param port 对应的端口
      * @param channelHandler 需要注意   这里的都需要加上注解@ChannelHandler.Sharable 否则在重连时会报错
      */
     public UDPClient(String host, int port, ChannelHandler channelHandler) {
@@ -106,14 +102,19 @@ public class UDPClient  implements Client {
         bootstrap = new Bootstrap();
         bootstrap.group(workerGroup);
         bootstrap.channel(NioDatagramChannel.class);
-        bootstrap.option(ChannelOption.SO_KEEPALIVE, true);
 
         bootstrap.handler(new ChannelInitializer<NioDatagramChannel>() {
             @Override
             protected void initChannel(NioDatagramChannel ch) {
 
-                ch.pipeline().addLast(new DatagramPacketEncoder((new ProtobufEncoder()) ));
-                ch.pipeline().addLast(new DatagramPacketDecoder((new ProtobufDecoder(NettyIoProto.Base.getDefaultInstance())) ));
+                ProtobufEncoder protobufEncoder = new ProtobufEncoder();
+                ProtobufDecoder protobufDecoder = new ProtobufDecoder(NettyIoProto.Base.getDefaultInstance());
+
+                ch.pipeline().addLast(new DatagramPacketEncoder(protobufEncoder ));
+                ch.pipeline().addLast(new DatagramPacketDecoder(protobufDecoder ));
+
+                ch.pipeline().addLast(protobufEncoder);
+                ch.pipeline().addLast(protobufDecoder);
 
                 ch.pipeline().addLast(new BaseServerProtoMessageDecode());
                 ch.pipeline().addLast(new BaseServerProtoMessageEncode());
@@ -121,9 +122,10 @@ public class UDPClient  implements Client {
                 ch.pipeline().addLast(new BaseServerMap2ProtoEncode());
                 ch.pipeline().addLast(new BaseServerProto2MapDecode());
 
+                //UDP不适用这个心跳包
                 //30秒没有输出数据就发送心跳包
-                ch.pipeline().addLast(new IdleStateHandler(0, SystemProperty.HEARTBEAT_TIME, 0, TimeUnit.SECONDS));
-                ch.pipeline().addLast(new BaseClientHeartbeatHandle());
+//                ch.pipeline().addLast(new IdleStateHandler(0, SystemProperty.HEARTBEAT_TIME, 0, TimeUnit.SECONDS));
+//                ch.pipeline().addLast(new BaseClientHeartbeatHandle());
 
                 if (channelHandlers != null) {
                     for (var item : channelHandlers) {

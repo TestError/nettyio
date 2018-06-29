@@ -8,6 +8,7 @@ import io.netty.channel.ChannelHandlerContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -25,16 +26,22 @@ public class TestMessage extends MessageBase {
      * @param data 链里获取的数据
      */
     @Message(proto = "com.zqgame.netty.io.proto.NettyIoProto.Test")
-    public String onCallTest(@MessageParamType(Constant.PROTO) String proto, @MessageParamType(Constant.MESSAGE) Map<String, Object> data,
+    public Map onCallTest(@MessageParamType(Constant.PROTO) String proto, @MessageParamType(Constant.MESSAGE) Map<String, Object> data,
                              Object nullValue, @MessageParamType(Constant.CHANNEL_HANDLER_CONTEXT) ChannelHandlerContext channelHandlerContext) {
 
         logger.debug("proto:{}", proto);
 
         logger.debug("handler:{}", channelHandlerContext);
 
+        logger.debug("channel:{}",channelHandlerContext.channel().remoteAddress());
+
         logger.debug("调用了哦,数据为:{}", data);
 
-        return "helloworld";
+        var result = new HashMap<String,Object>();
+        result.put(Constant.PROTO,proto);
+        result.put(Constant.MESSAGE,data);
+
+        return result;
     }
 
 }

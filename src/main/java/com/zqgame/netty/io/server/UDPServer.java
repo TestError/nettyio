@@ -12,11 +12,8 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioDatagramChannel;
 import io.netty.handler.codec.DatagramPacketDecoder;
 import io.netty.handler.codec.DatagramPacketEncoder;
-import io.netty.handler.codec.MessageToMessageEncoder;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
-import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
-import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import io.netty.handler.timeout.IdleStateHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,7 +82,8 @@ public class UDPServer implements Server{
                 ch.pipeline().addLast(new DatagramPacketEncoder(new ProtobufEncoder()));
                 ch.pipeline().addLast(new DatagramPacketDecoder((new ProtobufDecoder(NettyIoProto.Base.getDefaultInstance())) ));
 
-
+                ch.pipeline().addLast(new ProtobufEncoder());
+                ch.pipeline().addLast(new ProtobufDecoder(NettyIoProto.Base.getDefaultInstance()));
 
                 ch.pipeline().addLast(new BaseServerProtoMessageDecode());
                 ch.pipeline().addLast(new BaseServerProtoMessageEncode());
@@ -93,9 +91,10 @@ public class UDPServer implements Server{
                 ch.pipeline().addLast(new BaseServerMap2ProtoEncode());
                 ch.pipeline().addLast(new BaseServerProto2MapDecode());
 
+                //UDP不使用这个心跳包
                 //九十秒没有收到消息设置为断线
-                ch.pipeline().addLast(new IdleStateHandler(SystemProperty.HEARTBEAT_TIME_OUT_TIME,0,0,TimeUnit.SECONDS));
-                ch.pipeline().addLast(new BaseServerHeartbeatHandle());
+//                ch.pipeline().addLast(new IdleStateHandler(SystemProperty.HEARTBEAT_TIME_OUT_TIME,0,0,TimeUnit.SECONDS));
+//                ch.pipeline().addLast(new BaseServerHeartbeatHandle());
 
                 if (channelHandlers != null){
                     for(var item : channelHandlers){
