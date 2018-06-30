@@ -84,11 +84,11 @@ public class WebSocketClient implements  Client {
                 ch.pipeline().addLast(new ChunkedWriteHandler());
 
                 ch.pipeline().addLast(new WebSocketClientProtocolHandler(uri,WebSocketVersion.V13,"",true,null,65536));
+                ch.pipeline().addLast(new WebSocketClientHandler());
 
 
 
-
-                WebSocketClientHandshakerFactory.newHandshaker(uri,WebSocketVersion.V13,"",true,null) ;
+//                WebSocketClientHandshakerFactory.newHandshaker(uri,WebSocketVersion.V13,"",true,null) ;
 
 //                ch.pipeline().addLast(new ProtobufVarint32LengthFieldPrepender());
 //                ch.pipeline().addLast(new ProtobufVarint32FrameDecoder());
@@ -132,6 +132,23 @@ public class WebSocketClient implements  Client {
      */
     @Override
     public void connect() {
+
+        var channelFuture = bootstrap.connect(uri.getHost(),uri.getPort());
+
+        this.channel = channelFuture.channel();
+
+        channelFuture.addListener(future -> {
+
+            if(future.isSuccess()){
+                logger.debug("channel:{} connect success",channel);
+            }else{
+                logger.debug("channel:{} connect fail",channel);
+            }
+
+        });
+
+
+
 //        ChannelFuture channelFuture = bootstrap.connect(this.host, this.port);
 
         //注册Channel

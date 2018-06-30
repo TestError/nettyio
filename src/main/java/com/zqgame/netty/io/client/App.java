@@ -10,13 +10,15 @@ public class App {
 	public static void main(String[] args) throws InterruptedException{
 
 
-	    var TCPClient = new TCPClient("192.168.53.16",8000, new ClientHandler());
-        TCPClient.connect();
+//	    var TCPClient = new TCPClient("192.168.53.16",8000, new ClientHandler());
+//        TCPClient.connect();
 //	    Thread.sleep(10000);
 //	    TCPClient.close();
 
+		var webSocketClient = new WebSocketClient("ws://127.0.0.1:8000/ws");
 
-	    Object o = new Object();
+		webSocketClient.connect();
+//	    Object o = new Object();
 //        synchronized (o) {
 //            o.wait();
 //        }
