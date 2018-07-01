@@ -1,18 +1,19 @@
 package com.zqgame.netty.io.server;
 
-import com.zqgame.netty.io.handle.WebSocketServerHandler;
+import com.zqgame.netty.io.handle.*;
+import com.zqgame.netty.io.proto.NettyIoProto;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
+import io.netty.handler.codec.http.websocketx.WebSocket13FrameEncoder;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketServerCompressionHandler;
+import io.netty.handler.codec.protobuf.ProtobufDecoder;
+import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.stream.ChunkedWriteHandler;
 import io.netty.util.internal.StringUtil;
 import org.slf4j.Logger;
@@ -53,7 +54,17 @@ public class WebSocketServer implements Server {
      */
     private EventLoopGroup workerGroup;
 
-    public WebSocketServer(int port ,String path){
+    public WebSocketServer(int port,String path){
+        this(port,path,(ChannelHandler[]) null);
+    }
+
+    public WebSocketServer(int port,String path,ChannelHandler channelHandler){
+        this(port,path,new ChannelHandler[]{channelHandler});
+    }
+
+
+
+    public WebSocketServer(int port ,String path, ChannelHandler[] channelHandlers){
 
         if (port < 1 || port > 65535) {
             throw new IllegalArgumentException();
@@ -83,7 +94,24 @@ public class WebSocketServer implements Server {
                 ch.pipeline().addLast(new ChunkedWriteHandler());
                 ch.pipeline().addLast(new WebSocketServerCompressionHandler());
                 ch.pipeline().addLast(new WebSocketServerProtocolHandler(path, null, true));
-                ch.pipeline().addLast(new WebSocketServerHandler());
+                ch.pipeline().addLast(new WebSocketFrameHandler());
+
+                ch.pipeline().addLast(new WebSocketBinaryFrameEncode());
+
+                ch.pipeline().addLast(new ProtobufEncoder());
+                ch.pipeline().addLast(new ProtobufDecoder(NettyIoProto.Base.getDefaultInstance()));
+
+                ch.pipeline().addLast(new BaseServerProtoMessageDecode());
+                ch.pipeline().addLast(new BaseServerProtoMessageEncode());
+//
+                ch.pipeline().addLast(new BaseServerMap2ProtoEncode());
+                ch.pipeline().addLast(new BaseServerProto2MapDecode());
+
+                if (channelHandlers != null){
+                    for(var item : channelHandlers){
+                        ch.pipeline().addLast(item);
+                    }
+                }
 
             }
         });

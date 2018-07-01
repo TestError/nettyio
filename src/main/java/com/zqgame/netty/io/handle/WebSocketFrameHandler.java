@@ -13,20 +13,22 @@ import org.slf4j.LoggerFactory;
  * 处理websocekt的Handler
  * peng.chen 2018/06/29 17:24:02
  */
-public class WebSocketServerHandler extends ChannelInboundHandlerAdapter {
+public class WebSocketFrameHandler extends ChannelInboundHandlerAdapter {
 
-    private Logger logger = LoggerFactory.getLogger(WebSocketServerHandler.class);
+    private Logger logger = LoggerFactory.getLogger(WebSocketFrameHandler.class);
 
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+
+        logger.debug("rec :{}",msg);
 
         if (msg instanceof TextWebSocketFrame){
             var textMsg = (TextWebSocketFrame)msg;
 
             logger.debug("接收到Text消息:{}",textMsg.text());
 
-            ctx.writeAndFlush(textMsg);
+//            ctx.writeAndFlush(textMsg);
 
         }else if(msg instanceof PingWebSocketFrame){
             ctx.writeAndFlush(new PongWebSocketFrame());

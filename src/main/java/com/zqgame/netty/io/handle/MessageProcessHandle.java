@@ -131,7 +131,7 @@ public class MessageProcessHandle extends ChannelInboundHandlerAdapter {
 
         };
 
-//        Executor executor = (Executor) applicationContext.getBean("threadPool");
+        executor = (Executor) applicationContext.getBean("threadPool");
         executor.execute(task);
 
     }

@@ -10,16 +10,10 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.codec.http.HttpObjectAggregator;
-import io.netty.handler.codec.http.websocketx.WebSocketClientHandshakerFactory;
-import io.netty.handler.codec.http.websocketx.WebSocketClientProtocolHandler;
-import io.netty.handler.codec.http.websocketx.WebSocketVersion;
-import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandshaker;
+import io.netty.handler.codec.http.websocketx.*;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
-import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
-import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import io.netty.handler.stream.ChunkedWriteHandler;
-import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.internal.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,12 +51,21 @@ public class WebSocketClient implements  Client {
      */
     private Bootstrap bootstrap;
 
+    public WebSocketClient(String url){
+        this(url,(ChannelHandler[]) null);
+
+    }
+
+    public WebSocketClient(String url,ChannelHandler channelHandler){
+        this(url,new ChannelHandler[]{channelHandler});
+    }
+
 
     /**
      *
      * @param url
      */
-    public WebSocketClient(String url) {
+    public WebSocketClient(String url, ChannelHandler [] channelHandlers) {
 
         if (StringUtil.isNullOrEmpty(url)) {
             throw new IllegalArgumentException();
@@ -83,34 +86,29 @@ public class WebSocketClient implements  Client {
                 ch.pipeline().addLast(new HttpObjectAggregator(65536));
                 ch.pipeline().addLast(new ChunkedWriteHandler());
 
-                ch.pipeline().addLast(new WebSocketClientProtocolHandler(uri,WebSocketVersion.V13,"",true,null,65536));
-                ch.pipeline().addLast(new WebSocketClientHandler());
+                ch.pipeline().addLast(new WebSocketClientProtocolHandler(uri, WebSocketVersion.V13, "", true, null, 65536));
+                ch.pipeline().addLast(new WebSocketFrameHandler());
 
+                ch.pipeline().addLast(new WebSocketBinaryFrameEncode());
 
+                ch.pipeline().addLast(new ProtobufEncoder());
+                ch.pipeline().addLast(new ProtobufDecoder(NettyIoProto.Base.getDefaultInstance()));
 
-//                WebSocketClientHandshakerFactory.newHandshaker(uri,WebSocketVersion.V13,"",true,null) ;
-
-//                ch.pipeline().addLast(new ProtobufVarint32LengthFieldPrepender());
-//                ch.pipeline().addLast(new ProtobufVarint32FrameDecoder());
+                ch.pipeline().addLast(new BaseServerProtoMessageDecode());
+                ch.pipeline().addLast(new BaseServerProtoMessageEncode());
 //
-//                ch.pipeline().addLast(new ProtobufEncoder());
-//                ch.pipeline().addLast(new ProtobufDecoder(NettyIoProto.Base.getDefaultInstance()));
-//
-//                ch.pipeline().addLast(new BaseServerProtoMessageDecode());
-//                ch.pipeline().addLast(new BaseServerProtoMessageEncode());
-//
-//                ch.pipeline().addLast(new BaseServerMap2ProtoEncode());
-//                ch.pipeline().addLast(new BaseServerProto2MapDecode());
+                ch.pipeline().addLast(new BaseServerMap2ProtoEncode());
+                ch.pipeline().addLast(new BaseServerProto2MapDecode());
 //
 //                //30秒没有输出数据就发送心跳包
 //                ch.pipeline().addLast(new IdleStateHandler(0, SystemProperty.HEARTBEAT_TIME, 0, TimeUnit.SECONDS));
 //                ch.pipeline().addLast(new BaseClientHeartbeatHandle());
 
-//                if (channelHandlers != null) {
-//                    for (var item : channelHandlers) {
-//                        ch.pipeline().addLast(item);
-//                    }
-//                }
+                if (channelHandlers != null) {
+                    for (var item : channelHandlers) {
+                        ch.pipeline().addLast(item);
+                    }
+                }
 
             }
         });
@@ -148,47 +146,41 @@ public class WebSocketClient implements  Client {
         });
 
 
+        channelFuture.addListener(future -> {
 
-//        ChannelFuture channelFuture = bootstrap.connect(this.host, this.port);
+            Runnable connectRun = () -> {
+                logger.debug("尝试重连 uri:{}", uri);
+                connect();
+            };
 
-        //注册Channel
-//        channel = channelFuture.channel();
 
-//        channelFuture.addListener(future -> {
-//
-//            Runnable connectRun = () -> {
-//                logger.debug("尝试重连 host:{},port:{}", host, port);
-//                connect();
-//            };
-//
-//
-//            //重新连接
-//            Runnable reconnect = () -> {
-//
-//                if (!isActionClose) {
-//                    //定时一段时间后去重连
-//                    workerGroup.schedule(connectRun, SystemProperty.RECOUNNECT_DELAY_TIME, TimeUnit.MILLISECONDS);
-//                }
-//            };
-//
-//            if (future.isSuccess()) {
-//                logger.info("成功连接 host:{} port:{}", host, port);
-//
-//
-//                //注册掉线重连
-//                //掉线重连
-//                channelFuture.channel().closeFuture().addListener(closeFuture -> {
-//                    logger.debug("channel:{}掉线了!", channel);
-//                    reconnect.run();
-//                });
-//
-//            } else {
-//                logger.debug("连接 host:{} port:{} 失败", host, port);
-//                //连接失败重连
-//                reconnect.run();
-//            }
+            //重新连接
+            Runnable reconnect = () -> {
 
-//        });
+                if (!isActionClose) {
+                    //定时一段时间后去重连
+                    workerGroup.schedule(connectRun, SystemProperty.RECOUNNECT_DELAY_TIME, TimeUnit.MILLISECONDS);
+                }
+            };
+
+            if (future.isSuccess()) {
+                logger.info("成功连接 uri:{}",uri);
+
+
+                //注册掉线重连
+                //掉线重连
+                channelFuture.channel().closeFuture().addListener(closeFuture -> {
+                    logger.debug("channel:{}掉线了!", channel);
+                    reconnect.run();
+                });
+
+            } else {
+                logger.debug("连接 uri:{} ", uri);
+                //连接失败重连
+                reconnect.run();
+            }
+
+        });
 
     }
 
@@ -197,17 +189,34 @@ public class WebSocketClient implements  Client {
      */
     @Override
     public void close() {
-//        isActionClose = true;
+        isActionClose = true;
 
-//        channel.close().addListener(future -> {
-//            if (future.isSuccess()) {
-//                logger.debug("channel:{} 关掉了", channel);
-//            } else {
-//                logger.debug("channel:{} 无法正常关闭", channel);
-//            }
-//        });
+        Runnable runClose = () ->{
+            channel.close().addListener(future -> {
+                if (future.isSuccess()){
+                    logger.debug("channel:{} 成功关闭");
+                }else {
+                    logger.debug("channel:{} 成功失败了");
+                }
 
-//        workerGroup.shutdownGracefully();
+
+            });
+
+            workerGroup.shutdownGracefully();
+
+        };
+
+        if(channel.isOpen()){
+
+            channel.writeAndFlush(new CloseWebSocketFrame()).addListener(future -> {
+                runClose.run();
+
+            });
+
+        }else{
+            runClose.run();
+        }
+
     }
 
 
