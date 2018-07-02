@@ -14,6 +14,7 @@ import io.netty.handler.codec.http.websocketx.*;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.stream.ChunkedWriteHandler;
+import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.internal.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,8 +102,8 @@ public class WebSocketClient implements  Client {
                 ch.pipeline().addLast(new BaseServerProto2MapDecode());
 //
 //                //30秒没有输出数据就发送心跳包
-//                ch.pipeline().addLast(new IdleStateHandler(0, SystemProperty.HEARTBEAT_TIME, 0, TimeUnit.SECONDS));
-//                ch.pipeline().addLast(new BaseClientHeartbeatHandle());
+                ch.pipeline().addLast(new IdleStateHandler(0, SystemProperty.HEARTBEAT_TIME, 0, TimeUnit.SECONDS));
+                ch.pipeline().addLast(new BaseClientHeartbeatHandle());
 
                 if (channelHandlers != null) {
                     for (var item : channelHandlers) {

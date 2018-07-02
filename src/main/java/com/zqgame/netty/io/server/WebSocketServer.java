@@ -1,5 +1,6 @@
 package com.zqgame.netty.io.server;
 
+import com.zqgame.netty.io.common.SystemProperty;
 import com.zqgame.netty.io.handle.*;
 import com.zqgame.netty.io.proto.NettyIoProto;
 import io.netty.bootstrap.ServerBootstrap;
@@ -14,9 +15,12 @@ import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketSe
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.stream.ChunkedWriteHandler;
+import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.internal.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * websocket 服务端
@@ -105,6 +109,10 @@ public class WebSocketServer implements Server {
 //
                 ch.pipeline().addLast(new BaseServerMap2ProtoEncode());
                 ch.pipeline().addLast(new BaseServerProto2MapDecode());
+
+                //九十秒没有收到消息设置为断线
+                ch.pipeline().addLast(new IdleStateHandler(SystemProperty.HEARTBEAT_TIME_OUT_TIME,0,0,TimeUnit.SECONDS));
+                ch.pipeline().addLast(new BaseServerHeartbeatHandle());
 
                 if (channelHandlers != null){
                     for(var item : channelHandlers){
