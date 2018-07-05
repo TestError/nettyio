@@ -2,8 +2,8 @@ package com.zqgame.netty.io.client;
 
 public interface Client {
 
-    public void connect();
+    void connect();
 
-    public void close();
+    void close();
 
 }
