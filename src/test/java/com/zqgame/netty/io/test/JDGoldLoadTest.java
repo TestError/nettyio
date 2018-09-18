@@ -12,7 +12,7 @@ public class JDGoldLoadTest {
 	public void test(){
 
 		LocalDate now = LocalDate.now();
-		LocalDate lastUpdateDate = LocalDate.of(2018,8,18);
+		LocalDate lastUpdateDate = LocalDate.of(2018,9,18);
 
 		double baseRate = 0.0005;
 		double baseMoney = 11250;
@@ -22,6 +22,9 @@ public class JDGoldLoadTest {
 		baseMoney = baseMoney - monthMoney;	//2018-06-17 13:16:49
 		baseMoney = baseMoney - monthMoney;	//2018-7-18 09:36:40
 		baseMoney = baseMoney - monthMoney;	//peng.chen 2018-8-18 23:45:16
+				
+		baseMoney = baseMoney - monthMoney;	//peng.chen 2018-9-18 11:27:43
+				
 //		now = LocalDate.of(2018,4,18);
 //		lastUpdateDate = LocalDate.of(2018,3,18);
 
